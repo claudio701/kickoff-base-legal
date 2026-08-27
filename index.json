@@ -1,0 +1,318 @@
+{
+ "version": "2026-08-27",
+ "codigos": [
+  {
+   "slug": "codigo-civil",
+   "nombre": "Código Civil",
+   "idNorma": 172986,
+   "archivo": "codigos/codigo-civil.md",
+   "articulos": 3328,
+   "temas": [
+    "civil"
+   ],
+   "bytes": 1260213
+  },
+  {
+   "slug": "codigo-de-comercio",
+   "nombre": "Código de Comercio",
+   "idNorma": 1974,
+   "archivo": "codigos/codigo-de-comercio.md",
+   "articulos": 1675,
+   "temas": [
+    "comercial"
+   ],
+   "bytes": 523961
+  },
+  {
+   "slug": "codigo-del-trabajo",
+   "nombre": "Código del Trabajo (DFL N° 1, de 2002, del Ministerio del Trabajo y Previsión Social)",
+   "idNorma": 207436,
+   "archivo": "codigos/codigo-del-trabajo.md",
+   "articulos": 1297,
+   "temas": [
+    "laboral"
+   ],
+   "bytes": 708875
+  },
+  {
+   "slug": "codigo-organico-tribunales",
+   "nombre": "Código Orgánico de Tribunales",
+   "idNorma": 25563,
+   "archivo": "codigos/codigo-organico-tribunales.md",
+   "articulos": 988,
+   "temas": [
+    "procesal",
+    "litigios"
+   ],
+   "bytes": 576645
+  },
+  {
+   "slug": "codigo-penal",
+   "nombre": "Código Penal",
+   "idNorma": 1984,
+   "archivo": "codigos/codigo-penal.md",
+   "articulos": 911,
+   "temas": [
+    "penal"
+   ],
+   "bytes": 438168
+  },
+  {
+   "slug": "codigo-procedimiento-civil",
+   "nombre": "Código de Procedimiento Civil",
+   "idNorma": 22740,
+   "archivo": "codigos/codigo-procedimiento-civil.md",
+   "articulos": 1274,
+   "temas": [
+    "procesal",
+    "civil",
+    "litigios"
+   ],
+   "bytes": 467740
+  },
+  {
+   "slug": "codigo-procesal-penal",
+   "nombre": "Código Procesal Penal",
+   "idNorma": 176595,
+   "archivo": "codigos/codigo-procesal-penal.md",
+   "articulos": 900,
+   "temas": [
+    "procesal",
+    "penal",
+    "litigios"
+   ],
+   "bytes": 501084
+  },
+  {
+   "slug": "codigo-tributario",
+   "nombre": "Código Tributario (Decreto Ley 830)",
+   "idNorma": 6374,
+   "archivo": "codigos/codigo-tributario.md",
+   "articulos": 645,
+   "temas": [
+    "tributario",
+    "sii"
+   ],
+   "bytes": 465493
+  },
+  {
+   "slug": "constitucion-politica",
+   "nombre": "Constitución Política de la República de Chile",
+   "idNorma": 242302,
+   "archivo": "codigos/constitucion-politica.md",
+   "articulos": 414,
+   "temas": [
+    "constitucional"
+   ],
+   "bytes": 399781
+  },
+  {
+   "slug": "dfl-707-cheques",
+   "nombre": "DFL 707 - Fija texto refundido de la ley sobre cuentas corrientes bancarias y cheques",
+   "idNorma": 5594,
+   "archivo": "codigos/dfl-707-cheques.md",
+   "articulos": 69,
+   "temas": [
+    "comercial",
+    "cheques"
+   ],
+   "bytes": 28644
+  },
+  {
+   "slug": "dl-824-renta",
+   "nombre": "Ley sobre Impuesto a la Renta (Decreto Ley 824)",
+   "idNorma": 6368,
+   "archivo": "codigos/dl-824-renta.md",
+   "articulos": 908,
+   "temas": [
+    "tributario",
+    "renta"
+   ],
+   "bytes": 612090
+  },
+  {
+   "slug": "dl-825-iva",
+   "nombre": "Ley sobre Impuesto a las Ventas y Servicios (Decreto Ley 825)",
+   "idNorma": 6369,
+   "archivo": "codigos/dl-825-iva.md",
+   "articulos": 269,
+   "temas": [
+    "tributario",
+    "sii",
+    "iva"
+   ],
+   "bytes": 180313
+  },
+  {
+   "slug": "ley-17235-territorial",
+   "nombre": "Ley N° 17.235 sobre Impuesto Territorial (texto refundido DFL 1/1998)",
+   "idNorma": 128563,
+   "archivo": "codigos/ley-17235-territorial.md",
+   "articulos": 98,
+   "temas": [
+    "tributario",
+    "territorial",
+    "contribuciones"
+   ],
+   "bytes": 57166
+  },
+  {
+   "slug": "ley-18046-sociedades",
+   "nombre": "Ley N° 18.046 sobre Sociedades Anónimas",
+   "idNorma": 29473,
+   "archivo": "codigos/ley-18046-sociedades.md",
+   "articulos": 356,
+   "temas": [
+    "comercial",
+    "societario"
+   ],
+   "bytes": 200159
+  },
+  {
+   "slug": "ley-18092-letra-pagare",
+   "nombre": "Ley 18.092 - Dicta nuevas normas sobre letra de cambio y pagaré",
+   "idNorma": 29517,
+   "archivo": "codigos/ley-18092-letra-pagare.md",
+   "articulos": 149,
+   "temas": [
+    "comercial",
+    "cambiario"
+   ],
+   "bytes": 50896
+  },
+  {
+   "slug": "ley-19039-propiedad-industrial",
+   "nombre": "Ley N° 19.039 de Propiedad Industrial",
+   "idNorma": 30406,
+   "archivo": "codigos/ley-19039-propiedad-industrial.md",
+   "articulos": 209,
+   "temas": [
+    "marcas",
+    "inapi",
+    "propiedad-industrial"
+   ],
+   "bytes": 108210
+  },
+  {
+   "slug": "ley-19496-consumidor",
+   "nombre": "Ley 19.496 - Establece normas sobre protección de los derechos de los consumidores",
+   "idNorma": 61438,
+   "archivo": "codigos/ley-19496-consumidor.md",
+   "articulos": 278,
+   "temas": [
+    "consumidor",
+    "comercial"
+   ],
+   "bytes": 227097
+  },
+  {
+   "slug": "ley-20027-cae",
+   "nombre": "Ley 20.027 - Establece normas para el financiamiento de estudios de educación superior",
+   "idNorma": 239034,
+   "archivo": "codigos/ley-20027-cae.md",
+   "articulos": 102,
+   "temas": [
+    "bancario",
+    "consumidor",
+    "educacion"
+   ],
+   "bytes": 59048
+  },
+  {
+   "slug": "ley-20720-insolvencia",
+   "nombre": "Ley 20.720 - Sustituye el régimen concursal por una ley de reorganización y liquidación de empresas y personas",
+   "idNorma": 1058072,
+   "archivo": "codigos/ley-20720-insolvencia.md",
+   "articulos": 1092,
+   "temas": [
+    "insolvencia"
+   ],
+   "bytes": 587050
+  },
+  {
+   "slug": "ley-general-de-bancos",
+   "nombre": "Ley General de Bancos (DFL N° 3, de 1997, del Ministerio de Hacienda)",
+   "idNorma": 83135,
+   "archivo": "codigos/ley-general-de-bancos.md",
+   "articulos": 363,
+   "temas": [
+    "bancario",
+    "comercial"
+   ],
+   "bytes": 211710
+  }
+ ],
+ "circulares": {
+  "anos": [
+   2013,
+   2014,
+   2015,
+   2016,
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025,
+   2026
+  ],
+  "metadataPattern": "circulares/metadata/{ano}.json",
+  "textoPattern": "circulares/texto/{ano}/circu{n}.txt",
+  "total": 873
+ },
+ "documentos": [
+  {
+   "slug": "guia_prescripcion_deudas_chile",
+   "titulo": "Guía práctica: cómo pedir la prescripción de deudas en Chile",
+   "archivo": "documentos/guia_prescripcion_deudas_chile.md",
+   "temas": [
+    "civil",
+    "tributario",
+    "prescripcion"
+   ]
+  },
+  {
+   "slug": "informe_usufructo_vs_hipoteca",
+   "titulo": "Informe: usufructo vs. hipoteca bancaria — jurisprudencia chilena",
+   "archivo": "documentos/informe_usufructo_vs_hipoteca.md",
+   "temas": [
+    "civil",
+    "bancario",
+    "usufructo",
+    "hipoteca"
+   ]
+  },
+  {
+   "slug": "anexo_derechos_del_nino_vs_banco",
+   "titulo": "Anexo: derechos del niño vs. banco acreedor hipotecario",
+   "archivo": "documentos/anexo_derechos_del_nino_vs_banco.md",
+   "temas": [
+    "civil",
+    "constitucional",
+    "familia"
+   ]
+  },
+  {
+   "slug": "jurisprudencia_administrativa_sii_prescripcion",
+   "titulo": "Jurisprudencia administrativa SII sobre prescripción (arts. 200-201 CT)",
+   "archivo": "documentos/jurisprudencia_administrativa_sii_prescripcion.md",
+   "temas": [
+    "tributario",
+    "sii",
+    "prescripcion"
+   ]
+  },
+  {
+   "slug": "investigacion_magister_tributario_UAI",
+   "titulo": "Investigación: magísteres tributarios UAI",
+   "archivo": "documentos/investigacion_magister_tributario_UAI.md",
+   "temas": [
+    "tributario",
+    "educacion"
+   ]
+  }
+ ]
+}
