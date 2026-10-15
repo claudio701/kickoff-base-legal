@@ -1,0 +1,147 @@
+# Actualiza la base legal desde las fuentes oficiales.
+# - Códigos y leyes: LeyChile (BCN), https://www.leychile.cl/Consulta/obtxml?opt=7&idNorma=<id>
+# - Circulares SII: https://www.sii.cl/normativa_legislacion/circulares/{año}/indcir{año}.htm
+# Corre cada lunes y a mano (workflow_dispatch). Si hay cambios y corre sobre main, hace commit
+# directo a main con el bot de Actions.
+# Con solo_probar=true descarga y valida en un directorio temporal, muestra un resumen en el
+# log y en el resumen del job, sube los .md generados como artefacto y NO hace commit.
+name: Actualizar base legal
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      solo_probar:
+        description: "Descargar y validar sin hacer commit"
+        type: boolean
+        default: false
+      circulares:
+        description: "Incluir circulares SII"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-base-legal
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    name: Descargar normas y circulares
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      SOLO_PROBAR: ${{ inputs.solo_probar && 'true' || 'false' }}
+      CIRCULARES: ${{ (github.event_name == 'schedule' || inputs.circulares) && 'true' || 'false' }}
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v5
+
+      - name: Instalar Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: herramientas/requirements.txt
+
+      - name: Instalar dependencias
+        run: python -m pip install -r herramientas/requirements.txt
+
+      - name: Pruebas del conversor
+        run: python -m pytest -q tests
+
+      - name: Descargar códigos de LeyChile
+        run: |
+          if [ "$SOLO_PROBAR" = "true" ]; then
+            destino="$RUNNER_TEMP/base"
+            mkdir -p "$destino"
+            cp index.json "$destino/"
+            python herramientas/descargar_normas.py --raiz "$destino"
+          else
+            python herramientas/descargar_normas.py
+          fi
+
+      - name: Validar códigos generados
+        run: |
+          raiz="."
+          [ "$SOLO_PROBAR" = "true" ] && raiz="$RUNNER_TEMP/base"
+          python - "$raiz" <<'PY'
+          import json, re, sys
+          from pathlib import Path
+          raiz = Path(sys.argv[1])
+          indice = json.loads((raiz / "index.json").read_text(encoding="utf-8"))
+          filas, errores = [], []
+          for c in indice["codigos"]:
+              ruta = raiz / c["archivo"]
+              if not ruta.is_file():
+                  errores.append(f"falta {c['archivo']}")
+                  continue
+              texto = ruta.read_text(encoding="utf-8")
+              if not texto.startswith(f"---\nidNorma: {c['idNorma']}\n"):
+                  errores.append(f"front-matter inválido en {c['archivo']}")
+              if "verificar vigencia antes de citar" not in texto.lower():
+                  errores.append(f"falta nota de vigencia en {c['archivo']}")
+              articulos = len(re.findall(r"^#### Artículo ", texto, re.M))
+              version = re.search(r"^fecha_version: (.+)$", texto, re.M).group(1)
+              filas.append(f"| {c['slug']} | {c['idNorma']} | {version} | {articulos} | {len(texto.encode())} |")
+          resumen = ["| slug | idNorma | versión | artículos | bytes |", "|---|---|---|---|---|", *filas]
+          print("\n".join(resumen))
+          with open(__import__("os").environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as s:
+              s.write("## Códigos LeyChile\n\n" + "\n".join(resumen) + "\n\n")
+          if errores:
+              print("ERRORES:\n" + "\n".join(errores))
+              sys.exit(1)
+          print(f"OK: {len(filas)} códigos válidos")
+          PY
+          if [ "$SOLO_PROBAR" = "true" ]; then
+            primero="$(ls "$RUNNER_TEMP/base/codigos/"*.md | head -n 1)"
+            echo "----- Muestra: primeras 60 líneas de $primero -----"
+            head -n 60 "$primero"
+          fi
+
+      - name: Subir códigos generados (solo prueba)
+        if: env.SOLO_PROBAR == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: codigos-prueba
+          path: ${{ runner.temp }}/base/codigos/
+          retention-days: 7
+
+      - name: Descargar circulares SII
+        id: circulares
+        if: env.CIRCULARES == 'true'
+        continue-on-error: true
+        run: |
+          if [ "$SOLO_PROBAR" = "true" ]; then
+            python herramientas/descargar_circulares.py --solo-probar
+          else
+            python herramientas/descargar_circulares.py
+          fi
+
+      - name: Commit y push a main
+        if: env.SOLO_PROBAR != 'true' && github.ref == 'refs/heads/main'
+        run: |
+          for ruta in codigos circulares index.json; do
+            [ -e "$ruta" ] && git add -A "$ruta"
+          done
+          if git diff --cached --quiet; then
+            echo "Sin cambios en la base legal."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "base: actualización automática desde LeyChile y SII ($(date -u +%F))"
+          for intento in 1 2 3; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            sleep $((intento * 10))
+          done
+          echo "::error::No se pudo hacer push a main"
+          exit 1
+
+      - name: Avisar si fallaron las circulares
+        if: steps.circulares.outcome == 'failure'
+        run: |
+          echo "::warning::La descarga de circulares SII terminó con errores (ver el paso 'Descargar circulares SII'). Los códigos sí se procesaron."

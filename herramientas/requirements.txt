@@ -1,0 +1,5 @@
+# descargar_normas.py usa solo la biblioteca estándar.
+# descargar_circulares.py necesita pypdf para extraer el texto de los PDF del SII.
+pypdf==5.1.0
+# Solo para las pruebas.
+pytest==8.3.3
