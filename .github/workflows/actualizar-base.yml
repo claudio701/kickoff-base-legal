@@ -3,6 +3,7 @@
 # - Circulares SII: https://www.sii.cl/normativa_legislacion/circulares/{año}/indcir{año}.htm
 # Corre cada lunes y a mano (workflow_dispatch). Si hay cambios y corre sobre main, hace commit
 # directo a main con el bot de Actions.
+# Un push a cualquier rama distinta de main que toque las herramientas corre en modo prueba.
 # Con solo_probar=true descarga y valida en un directorio temporal, muestra un resumen en el
 # log y en el resumen del job, sube los .md generados como artefacto y NO hace commit.
 name: Actualizar base legal
@@ -10,6 +11,13 @@ name: Actualizar base legal
 on:
   schedule:
     - cron: "17 6 * * 1"
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - "herramientas/**"
+      - "tests/**"
+      - ".github/workflows/actualizar-base.yml"
   workflow_dispatch:
     inputs:
       solo_probar:
@@ -34,8 +42,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 150
     env:
-      SOLO_PROBAR: ${{ inputs.solo_probar && 'true' || 'false' }}
-      CIRCULARES: ${{ (github.event_name == 'schedule' || inputs.circulares) && 'true' || 'false' }}
+      SOLO_PROBAR: ${{ (github.event_name == 'push' || inputs.solo_probar) && 'true' || 'false' }}
+      CIRCULARES: ${{ (github.event_name != 'workflow_dispatch' || inputs.circulares) && 'true' || 'false' }}
     steps:
       - name: Obtener código
         uses: actions/checkout@v5
