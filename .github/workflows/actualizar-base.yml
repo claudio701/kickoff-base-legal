@@ -42,6 +42,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 240
     env:
+      # Para pruebas: limitar la descarga de prueba a estos slugs (separados por espacio).
+      SLUGS_PRUEBA: "codigo-civil codigo-de-comercio"
       SOLO_PROBAR: ${{ (github.event_name == 'push' || inputs.solo_probar) && 'true' || 'false' }}
       CIRCULARES: ${{ (github.event_name != 'workflow_dispatch' || inputs.circulares) && 'true' || 'false' }}
     steps:
@@ -68,7 +70,7 @@ jobs:
             destino="$RUNNER_TEMP/base"
             mkdir -p "$destino"
             cp index.json "$destino/"
-            python herramientas/descargar_normas.py --raiz "$destino" --pausa 60
+            python herramientas/descargar_normas.py --raiz "$destino" --pausa 60 ${SLUGS_PRUEBA:+--solo $SLUGS_PRUEBA}
           else
             python herramientas/descargar_normas.py --pausa 60
           fi
@@ -106,6 +108,27 @@ jobs:
           print(f"OK: {len(filas)} códigos válidos")
           PY
           if [ "$SOLO_PROBAR" = "true" ]; then
+            python - "$RUNNER_TEMP/base/codigos" <<'PY'
+          import re, sys
+          from collections import Counter
+          from pathlib import Path
+          for ruta in sorted(Path(sys.argv[1]).glob("*.md")):
+              lineas = ruta.read_text(encoding="utf-8").splitlines()
+              arts = [(i, l) for i, l in enumerate(lineas) if l.startswith("#### Artículo ")]
+              conteo = Counter(l for _, l in arts)
+              rep = [l for l, n in conteo.items() if n > 1]
+              if not rep:
+                  continue
+              print(f"== {ruta.name}: {len(rep)} rótulos repetidos")
+              vistos = set()
+              for i, l in arts:
+                  if l in rep and l in vistos:
+                      previos = [x for x in lineas[max(0, i - 400):i] if x.startswith("#") and not x.startswith("####")][-4:]
+                      print("   contexto:", previos, "->", l, "|", (lineas[i + 2] if i + 2 < len(lineas) else "")[:120])
+                      break
+                  vistos.add(l)
+              print("   primeros encabezados ###:", [x for x in lineas if x.startswith("### ") and ", artículo" in x][:12])
+          PY
             primero="$(ls "$RUNNER_TEMP/base/codigos/"*.md | head -n 1)"
             echo "----- Muestra: primeras 60 líneas de $primero -----"
             head -n 60 "$primero"
@@ -125,7 +148,7 @@ jobs:
         continue-on-error: true
         run: |
           if [ "$SOLO_PROBAR" = "true" ]; then
-            python herramientas/descargar_circulares.py --solo-probar
+            python herramientas/descargar_circulares.py --solo-probar --anos 2026
           else
             python herramientas/descargar_circulares.py
           fi
