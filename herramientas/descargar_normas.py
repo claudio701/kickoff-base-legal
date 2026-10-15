@@ -224,23 +224,13 @@ def _contiene_articulos(estructura: ET.Element) -> bool:
 
 
 class _Conversor:
-    """Recorre EstructurasFuncionales y emite Markdown.
+    """Recorre EstructurasFuncionales y emite Markdown (un encabezado ``####`` por artículo)."""
 
-    Normas «envoltorio» (p. ej. el DFL 1 de 2000 que fija el texto del Código Civil): un
-    artículo del decreto contiene, anidado, el articulado completo del código. Para que
-    ``kb://<slug>#art-1`` apunte al artículo 1 del código y no al del decreto, los artículos
-    del decreto (los que no están dentro del envoltorio) se rotulan «<norma>, artículo N» con un
-    encabezado que el cargador de CC no toma como artículo.
-    """
-
-    def __init__(self, etiqueta_norma: str = "", hay_envoltorio: bool = False) -> None:
+    def __init__(self) -> None:
         self.lineas: list[str] = []
         self.articulos = 0
         self.avisos: list[str] = []
         self.encabezados: list[str] = []
-        self._etiqueta_norma = etiqueta_norma or "Norma"
-        self._hay_envoltorio = hay_envoltorio
-        self._en_envoltorio = False
 
     def _bloque(self, texto: str) -> None:
         if texto.strip():
@@ -263,16 +253,7 @@ class _Conversor:
 
         if tipo_min in _TIPOS_ARTICULO or (tipo_min in _TIPOS_TRANSITORIA and nombre):
             self.articulos += 1
-            if nombre and tipo_min in _TIPOS_ARTICULO and self._hay_envoltorio and not self._en_envoltorio:
-                etiqueta = _etiqueta_articulo(nombre, transitorio).replace("Artículo", "artículo", 1)
-                self.lineas.extend([f"### {self._etiqueta_norma}, {etiqueta}{derogado}", ""])
-                self._bloque(_sin_prefijo_articulo(cuerpo))
-                if _contiene_articulos(estructura):
-                    self._en_envoltorio = True
-                    self.estructuras(estructura.find(_t("EstructurasFuncionales")), profundidad + 1)
-                    self._en_envoltorio = False
-                    return
-            elif nombre and tipo_min in _TIPOS_ARTICULO:
+            if nombre and tipo_min in _TIPOS_ARTICULO:
                 encabezado = _etiqueta_articulo(nombre, transitorio)
                 self.encabezados.append(encabezado.lower())
                 self.lineas.extend([f"#### {encabezado}{derogado}", ""])
@@ -300,6 +281,59 @@ class _Conversor:
             self.lineas.extend([f"{nivel} {encabezado}{derogado}", ""])
             self._bloque(resto)
         self.estructuras(estructura.find(_t("EstructurasFuncionales")), profundidad + 1)
+
+
+def _articulos_exteriores(cuerpo: ET.Element) -> tuple[list[ET.Element], list[ET.Element]]:
+    """Artículos que no están dentro de otro artículo, y cuáles de ellos son envoltorios."""
+    exteriores: list[ET.Element] = []
+
+    def recorrer(nodo: ET.Element) -> None:
+        for hija in nodo.findall(f"{_t('EstructuraFuncional')}"):
+            if _es_tipo_articulo(hija):
+                exteriores.append(hija)
+            else:
+                contenedor = hija.find(_t("EstructurasFuncionales"))
+                if contenedor is not None:
+                    recorrer(contenedor)
+
+    recorrer(cuerpo)
+    return exteriores, [a for a in exteriores if _contiene_articulos(a)]
+
+
+def _convertir_envoltorio(
+    conversor: _Conversor, cuerpo: ET.Element, etiqueta_norma: str, exteriores: list[ET.Element],
+    envoltorios: list[ET.Element],
+) -> None:
+    """Norma envoltorio (p. ej. el DFL 1 de 2000 que fija el texto del Código Civil).
+
+    Un artículo del decreto contiene, anidado, el articulado completo del código. Para que
+    ``kb://<slug>#art-1`` sea el artículo 1 del código y ningún fragmento se rotule como
+    artículo del código sin serlo:
+
+    - los artículos propios del decreto van primero, con encabezado «<norma>, artículo N» (que
+      el cargador de CC no toma como artículo: quedan en el fragmento ``inicio``);
+    - el articulado del envoltorio principal (el que contiene más artículos) va después,
+      un ``#### Artículo N`` por artículo;
+    - el contenido de los demás envoltorios (otras leyes refundidas en el mismo decreto) se
+      omite y se deja constancia; está en la fuente oficial.
+    """
+    principal = max(envoltorios, key=lambda e: sum(1 for x in e.iter(_t("EstructuraFuncional")) if _es_tipo_articulo(x)))
+    for articulo in exteriores:
+        nombre = _meta_parte(articulo, "NombreParte") or "s/n"
+        transitorio = articulo.get("transitorio", "").strip().lower() == "transitorio"
+        etiqueta = _etiqueta_articulo(nombre, transitorio).replace("Artículo", "artículo", 1)
+        derogado = " (derogado)" if _es_derogado(articulo) else ""
+        conversor.lineas.extend([f"### {etiqueta_norma}, {etiqueta}{derogado}", ""])
+        conversor._bloque(_sin_prefijo_articulo(limpiar_cuerpo(_texto_de(articulo.find(_t("Texto"))))))
+        if articulo is not principal and articulo in envoltorios:
+            omitidos = sum(1 for x in articulo.iter(_t("EstructuraFuncional")) if _es_tipo_articulo(x)) - 1
+            conversor._bloque(
+                f"_[Se omiten aquí los {omitidos} artículos del texto que fija este artículo: no forman "
+                "parte de este archivo. Consultar la fuente oficial.]_"
+            )
+            conversor.avisos.append(f"envoltorio secundario omitido: {etiqueta} ({omitidos} artículos)")
+    conversor.articulos += len(exteriores)
+    conversor.estructuras(principal.find(_t("EstructurasFuncionales")), 2)
 
 
 def parsear_xml(datos: bytes, id_esperado: int | None = None) -> Norma:
@@ -341,16 +375,18 @@ def parsear_xml(datos: bytes, id_esperado: int | None = None) -> Norma:
     if not titulo_oficial:
         raise ErrorDescarga("falta Metadatos/TituloNorma")
 
-    hay_envoltorio = any(
-        _es_tipo_articulo(e) and _contiene_articulos(e) for e in raiz.iter(_t("EstructuraFuncional"))
-    )
-    conversor = _Conversor(tipos[0] if tipos else "", hay_envoltorio)
+    conversor = _Conversor()
     encabezado = limpiar_cuerpo(_texto_de(raiz.find(f"{_t('Encabezado')}/{_t('Texto')}")))
     conversor._bloque(encabezado)
     cuerpo = raiz.find(_t("EstructurasFuncionales"))
     if cuerpo is None or cuerpo.find(_t("EstructuraFuncional")) is None:
         raise ErrorDescarga("el XML no trae EstructurasFuncionales con contenido")
-    conversor.estructuras(cuerpo, 1)
+    exteriores, envoltorios = _articulos_exteriores(cuerpo)
+    hay_envoltorio = bool(envoltorios)
+    if hay_envoltorio:
+        _convertir_envoltorio(conversor, cuerpo, tipos[0] if tipos else "Norma", exteriores, envoltorios)
+    else:
+        conversor.estructuras(cuerpo, 1)
 
     promulgacion = limpiar_cuerpo(_texto_de(raiz.find(f"{_t('Promulgacion')}/{_t('Texto')}")))
     if promulgacion:
@@ -367,7 +403,7 @@ def parsear_xml(datos: bytes, id_esperado: int | None = None) -> Norma:
         raise ErrorDescarga("no se encontró ningún artículo (tipoParte=Artículo) en el XML")
     if hay_envoltorio:
         conversor.avisos.append(
-            f"norma envoltorio: los artículos propios de «{tipos[0] if tipos else 'la norma'}» se rotulan aparte"
+            f"norma envoltorio: los artículos propios de «{tipos[0] if tipos else 'la norma'}» van al inicio"
         )
     conteo = Counter(conversor.encabezados)
     repetidos = sorted(e for e, n in conteo.items() if n > 1)

@@ -43,7 +43,7 @@ jobs:
     timeout-minutes: 240
     env:
       # Para pruebas: limitar la descarga de prueba a estos slugs (separados por espacio).
-      SLUGS_PRUEBA: "codigo-civil codigo-de-comercio"
+      SLUGS_PRUEBA: "codigo-civil codigo-tributario dl-824-renta ley-general-de-bancos"
       SOLO_PROBAR: ${{ (github.event_name == 'push' || inputs.solo_probar) && 'true' || 'false' }}
       CIRCULARES: ${{ (github.event_name != 'workflow_dispatch' || inputs.circulares) && 'true' || 'false' }}
     steps:

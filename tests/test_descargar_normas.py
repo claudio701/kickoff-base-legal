@@ -173,6 +173,15 @@ ENVOLTORIO = """<?xml version="1.0" encoding="UTF-8"?>
         </EstructuraFuncional>
       </EstructurasFuncionales>
     </EstructuraFuncional>
+    <EstructuraFuncional tipoParte="Artículo"><Texto>Artículo 3.- Fíjase el texto de otra ley ficticia.</Texto>
+      <Metadatos><NombreParte presente="si">3</NombreParte></Metadatos>
+      <EstructurasFuncionales>
+        <EstructuraFuncional tipoParte="Artículo"><Texto>Artículo 1.- Artículo de OTRA ley ficticia.</Texto>
+          <Metadatos><NombreParte presente="si">1</NombreParte></Metadatos></EstructuraFuncional>
+      </EstructurasFuncionales>
+    </EstructuraFuncional>
+    <EstructuraFuncional tipoParte="Artículo"><Texto>Artículo 4.- Disposición final ficticia del decreto.</Texto>
+      <Metadatos><NombreParte presente="si">4</NombreParte></Metadatos></EstructuraFuncional>
   </EstructurasFuncionales>
 </Norma>""".encode()
 
@@ -184,6 +193,11 @@ def test_norma_envoltorio() -> None:
     assert "### Decreto con Fuerza de Ley 9, artículo 2\n\nFíjase" in md
     assert "#### Artículo 1\n\nPrimer artículo del código sintético." in md
     assert md.count("#### Artículo ") == 2
+    assert "OTRA ley ficticia" not in md
+    assert "Se omiten aquí los 1 artículos" in md
+    # Los artículos propios del decreto (incluido el 4, posterior) quedan antes del código.
+    assert md.index("artículo 4\n\nDisposición final") < md.index("#### Artículo 1")
+    assert any("envoltorio secundario omitido" in a for a in norma.avisos)
     assert any("envoltorio" in a for a in norma.avisos)
 
 
