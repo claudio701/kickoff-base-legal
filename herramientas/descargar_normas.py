@@ -53,6 +53,7 @@ import unicodedata
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
+from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -212,11 +213,34 @@ def _es_derogado(estructura: ET.Element) -> bool:
     return estructura.get("derogado", "").strip().lower() == "derogado"
 
 
+def _es_tipo_articulo(estructura: ET.Element) -> bool:
+    return (estructura.get("tipoParte") or "").strip().lower() in _TIPOS_ARTICULO
+
+
+def _contiene_articulos(estructura: ET.Element) -> bool:
+    return any(
+        _es_tipo_articulo(hija) for hija in estructura.iter(_t("EstructuraFuncional")) if hija is not estructura
+    )
+
+
 class _Conversor:
-    def __init__(self) -> None:
+    """Recorre EstructurasFuncionales y emite Markdown.
+
+    Normas «envoltorio» (p. ej. el DFL 1 de 2000 que fija el texto del Código Civil): un
+    artículo del decreto contiene, anidado, el articulado completo del código. Para que
+    ``kb://<slug>#art-1`` apunte al artículo 1 del código y no al del decreto, los artículos
+    del decreto (los que no están dentro del envoltorio) se rotulan «<norma>, artículo N» con un
+    encabezado que el cargador de CC no toma como artículo.
+    """
+
+    def __init__(self, etiqueta_norma: str = "", hay_envoltorio: bool = False) -> None:
         self.lineas: list[str] = []
         self.articulos = 0
         self.avisos: list[str] = []
+        self.encabezados: list[str] = []
+        self._etiqueta_norma = etiqueta_norma or "Norma"
+        self._hay_envoltorio = hay_envoltorio
+        self._en_envoltorio = False
 
     def _bloque(self, texto: str) -> None:
         if texto.strip():
@@ -239,8 +263,18 @@ class _Conversor:
 
         if tipo_min in _TIPOS_ARTICULO or (tipo_min in _TIPOS_TRANSITORIA and nombre):
             self.articulos += 1
-            if nombre and tipo_min in _TIPOS_ARTICULO:
+            if nombre and tipo_min in _TIPOS_ARTICULO and self._hay_envoltorio and not self._en_envoltorio:
+                etiqueta = _etiqueta_articulo(nombre, transitorio).replace("Artículo", "artículo", 1)
+                self.lineas.extend([f"### {self._etiqueta_norma}, {etiqueta}{derogado}", ""])
+                self._bloque(_sin_prefijo_articulo(cuerpo))
+                if _contiene_articulos(estructura):
+                    self._en_envoltorio = True
+                    self.estructuras(estructura.find(_t("EstructurasFuncionales")), profundidad + 1)
+                    self._en_envoltorio = False
+                    return
+            elif nombre and tipo_min in _TIPOS_ARTICULO:
                 encabezado = _etiqueta_articulo(nombre, transitorio)
+                self.encabezados.append(encabezado.lower())
                 self.lineas.extend([f"#### {encabezado}{derogado}", ""])
                 self._bloque(_sin_prefijo_articulo(cuerpo))
             elif nombre:
@@ -307,7 +341,10 @@ def parsear_xml(datos: bytes, id_esperado: int | None = None) -> Norma:
     if not titulo_oficial:
         raise ErrorDescarga("falta Metadatos/TituloNorma")
 
-    conversor = _Conversor()
+    hay_envoltorio = any(
+        _es_tipo_articulo(e) and _contiene_articulos(e) for e in raiz.iter(_t("EstructuraFuncional"))
+    )
+    conversor = _Conversor(tipos[0] if tipos else "", hay_envoltorio)
     encabezado = limpiar_cuerpo(_texto_de(raiz.find(f"{_t('Encabezado')}/{_t('Texto')}")))
     conversor._bloque(encabezado)
     cuerpo = raiz.find(_t("EstructurasFuncionales"))
@@ -328,6 +365,15 @@ def parsear_xml(datos: bytes, id_esperado: int | None = None) -> Norma:
 
     if conversor.articulos == 0:
         raise ErrorDescarga("no se encontró ningún artículo (tipoParte=Artículo) en el XML")
+    if hay_envoltorio:
+        conversor.avisos.append(
+            f"norma envoltorio: los artículos propios de «{tipos[0] if tipos else 'la norma'}» se rotulan aparte"
+        )
+    conteo = Counter(conversor.encabezados)
+    repetidos = sorted(e for e, n in conteo.items() if n > 1)
+    if repetidos:
+        muestra = ", ".join(repetidos[:8]) + ("…" if len(repetidos) > 8 else "")
+        conversor.avisos.append(f"{len(repetidos)} rótulos de artículo repetidos (anclas -2, -3 en CC): {muestra}")
 
     return Norma(
         id_norma=id_norma,

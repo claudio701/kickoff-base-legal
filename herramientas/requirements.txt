@@ -1,5 +1,7 @@
 # descargar_normas.py usa solo la biblioteca estándar.
 # descargar_circulares.py necesita pypdf para extraer el texto de los PDF del SII.
 pypdf==5.1.0
+# Algunos PDF del SII vienen cifrados con AES (sin contraseña de apertura): pypdf necesita cryptography.
+cryptography==43.0.3
 # Solo para las pruebas.
 pytest==8.3.3

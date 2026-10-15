@@ -148,3 +148,54 @@ def test_lo_lee_el_cargador_de_cc(tmp_path: Path, monkeypatch: pytest.MonkeyPatc
     assert "diez días hábiles" in fragmento.texto
     # Solo el artículo 1 (el 2 bis lo menciona en su texto, pero no es su fragmento).
     assert base.buscar("plazo diez días hábiles", limite=1)[0].ref == "kb://ley-a#art-1"
+
+
+# MUESTRA SINTÉTICA de norma «envoltorio»: un decreto cuyo artículo 2 contiene el articulado
+# completo de un código (como el DFL que fija el texto del Código Civil). Contenido ficticio.
+ENVOLTORIO = """<?xml version="1.0" encoding="UTF-8"?>
+<Norma xmlns="http://www.leychile.cl/esquemas" normaId="888888" fechaVersion="2025-05-05" derogado="no derogado">
+  <Identificador fechaPublicacion="2000-01-01"><TiposNumeros><TipoNumero><Tipo>Decreto con Fuerza de Ley</Tipo>
+  <Numero>9</Numero></TipoNumero></TiposNumeros></Identificador>
+  <Metadatos><TituloNorma>FIJA TEXTO SINTETICO</TituloNorma></Metadatos>
+  <EstructurasFuncionales>
+    <EstructuraFuncional tipoParte="Artículo"><Texto>Artículo 1.- Deja sin efecto un decreto ficticio.</Texto>
+      <Metadatos><NombreParte presente="si">1</NombreParte></Metadatos></EstructuraFuncional>
+    <EstructuraFuncional tipoParte="Artículo"><Texto>Artículo 2.- Fíjase el siguiente texto sintético.</Texto>
+      <Metadatos><NombreParte presente="si">2</NombreParte></Metadatos>
+      <EstructurasFuncionales>
+        <EstructuraFuncional tipoParte="Título"><Texto>TITULO PRELIMINAR</Texto>
+          <EstructurasFuncionales>
+            <EstructuraFuncional tipoParte="Artículo"><Texto>Art. 1. Primer artículo del código sintético.</Texto>
+              <Metadatos><NombreParte presente="si">1</NombreParte></Metadatos></EstructuraFuncional>
+            <EstructuraFuncional tipoParte="Artículo"><Texto>Art. 2. Segundo artículo del código sintético.</Texto>
+              <Metadatos><NombreParte presente="si">2</NombreParte></Metadatos></EstructuraFuncional>
+          </EstructurasFuncionales>
+        </EstructuraFuncional>
+      </EstructurasFuncionales>
+    </EstructuraFuncional>
+  </EstructurasFuncionales>
+</Norma>""".encode()
+
+
+def test_norma_envoltorio() -> None:
+    norma = dn.parsear_xml(ENVOLTORIO, id_esperado=888888)
+    md = norma.markdown_cuerpo
+    assert "### Decreto con Fuerza de Ley 9, artículo 1\n\nDeja sin efecto" in md
+    assert "### Decreto con Fuerza de Ley 9, artículo 2\n\nFíjase" in md
+    assert "#### Artículo 1\n\nPrimer artículo del código sintético." in md
+    assert md.count("#### Artículo ") == 2
+    assert any("envoltorio" in a for a in norma.avisos)
+
+
+def test_envoltorio_en_cargador_de_cc(tmp_path: Path) -> None:
+    base_local = pytest.importorskip("cc.knowledge.base_local")
+    indice = {"codigos": [{"slug": "cod", "nombre": "Código X", "idNorma": 888888, "archivo": "codigos/cod.md"}]}
+    (tmp_path / "index.json").write_text(json.dumps(indice), encoding="utf-8")
+    (tmp_path / "codigos").mkdir()
+    md = dn.a_markdown(dn.parsear_xml(ENVOLTORIO), "Código X", "2026-10-15")
+    (tmp_path / "codigos" / "cod.md").write_text(md, encoding="utf-8")
+    base = base_local.BaseLegalLocal(tmp_path)
+    base.cargar()
+    assert {"kb://cod#art-1", "kb://cod#art-2"} <= base.refs()
+    assert "kb://cod#art-1-2" not in base.refs()
+    assert "Primer artículo del código sintético" in base.obtener("kb://cod#art-1").texto

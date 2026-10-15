@@ -68,9 +68,9 @@ jobs:
             destino="$RUNNER_TEMP/base"
             mkdir -p "$destino"
             cp index.json "$destino/"
-            python herramientas/descargar_normas.py --raiz "$destino" --pausa 20
+            python herramientas/descargar_normas.py --raiz "$destino" --pausa 60
           else
-            python herramientas/descargar_normas.py --pausa 20
+            python herramientas/descargar_normas.py --pausa 60
           fi
 
       - name: Validar códigos generados
