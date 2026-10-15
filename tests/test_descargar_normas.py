@@ -65,6 +65,15 @@ def test_front_matter() -> None:
     assert "verificar vigencia antes de citar" in md.lower()
 
 
+def test_advertencia_fecha_version_futura() -> None:
+    sintetica = MUESTRA.replace(b'fechaVersion="2026-01-15" SchemaVersion', b'fechaVersion="2222-02-02" SchemaVersion')
+    md = dn.a_markdown(dn.parsear_xml(sintetica), "Ley de prueba", "2026-10-15")
+    assert "advertencia_version: " in md
+    assert "> **Advertencia:** LeyChile informa fechaVersion 2222-02-02" in md
+    normal = dn.a_markdown(dn.parsear_xml(MUESTRA), "Ley de prueba", "2026-10-15")
+    assert "advertencia_version" not in normal and "Advertencia:" not in normal
+
+
 @pytest.mark.parametrize(
     ("datos", "mensaje"),
     [

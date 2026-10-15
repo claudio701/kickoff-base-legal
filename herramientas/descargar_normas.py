@@ -70,6 +70,11 @@ USER_AGENT = (
     "Chrome/124.0 Safari/537.36 kickoff-base-legal/1.0"
 )
 RAIZ_REPO = Path(__file__).resolve().parent.parent
+ADVERTENCIA_FECHA_FUTURA = (
+    "LeyChile informa fechaVersion {fecha}, posterior a la fecha de descarga (no es una fecha real "
+    "de publicación). El texto puede incluir modificaciones con vigencia diferida o aún no vigentes: "
+    "verificar en la fuente oficial qué disposiciones rigen antes de citar."
+)
 
 _TIPOS_ARTICULO = {"artículo", "articulo"}
 _TIPOS_TRANSITORIA = {"disposición transitoria", "disposicion transitoria"}
@@ -337,6 +342,11 @@ def parsear_xml(datos: bytes, id_esperado: int | None = None) -> Norma:
     )
 
 
+def es_fecha_futura(fecha: str, referencia: str) -> bool:
+    """``True`` si ``fecha`` (AAAA-MM-DD) es posterior a ``referencia`` (p. ej. 2222-02-02)."""
+    return fecha > referencia
+
+
 def _yaml_str(valor: str) -> str:
     return json.dumps(valor, ensure_ascii=False)
 
@@ -352,6 +362,8 @@ def a_markdown(norma: Norma, nombre: str, fecha_descarga: str) -> str:
         f"fuente: {URL_OFICIAL.format(id_norma=norma.id_norma)}",
         f"fuente_xml: {URL_XML.format(id_norma=norma.id_norma)}",
         f"fecha_version: {norma.fecha_version}",
+        *([f"advertencia_version: {_yaml_str(ADVERTENCIA_FECHA_FUTURA.format(fecha=norma.fecha_version))}"]
+          if es_fecha_futura(norma.fecha_version, fecha_descarga) else []),
         f"fecha_publicacion: {norma.fecha_publicacion}",
         f"fecha_descarga: {fecha_descarga}",
         f"estado: {_yaml_str(norma.derogado)}",
@@ -365,12 +377,23 @@ def a_markdown(norma: Norma, nombre: str, fecha_descarga: str) -> str:
         f"{norma.fecha_version}, idNorma {norma.id_norma}. Fuente oficial: "
         f"{URL_OFICIAL.format(id_norma=norma.id_norma)}",
         "",
+        *([f"> **Advertencia:** {ADVERTENCIA_FECHA_FUTURA.format(fecha=norma.fecha_version)}", ""]
+          if es_fecha_futura(norma.fecha_version, fecha_descarga) else []),
     ]
     return "\n".join(front) + "\n" + norma.markdown_cuerpo
 
 
-def descargar(id_norma: int, intentos: int = 4, timeout: float = 120.0) -> bytes:
-    """GET al servicio oficial con reintentos exponenciales ante errores de red o 5xx/429."""
+def _espera_reintento(exc: Exception | None, intento: int) -> float:
+    """Respeta ``Retry-After`` si viene; si no, espera exponencial (15, 30, 60, 120, 180 s)."""
+    if isinstance(exc, urllib.error.HTTPError):
+        crudo = (exc.headers or {}).get("Retry-After", "")
+        if str(crudo).strip().isdigit():
+            return min(300.0, float(crudo))
+    return float(min(180, 15 * 2 ** (intento - 1)))
+
+
+def descargar(id_norma: int, intentos: int = 6, timeout: float = 120.0) -> bytes:
+    """GET al servicio oficial con reintentos ante errores de red, 5xx o 429 (límite de tasa)."""
     url = URL_XML.format(id_norma=id_norma)
     peticion = urllib.request.Request(
         url, headers={"User-Agent": USER_AGENT, "Accept": "application/xml, text/xml, */*"}
@@ -390,7 +413,10 @@ def descargar(id_norma: int, intentos: int = 4, timeout: float = 120.0) -> bytes
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             ultimo = exc
         if intento < intentos:
-            time.sleep(min(60, 5 * 2 ** (intento - 1)))
+            espera = _espera_reintento(ultimo, intento)
+            print(f"       reintento {intento}/{intentos - 1} de idNorma {id_norma} en {espera:.0f} s: {ultimo}",
+                  flush=True)
+            time.sleep(espera)
     raise ErrorDescarga(f"no se pudo descargar {url} tras {intentos} intentos: {ultimo}")
 
 
@@ -420,7 +446,7 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="descarga y valida sin escribir archivos (para probar en CI)",
     )
-    parser.add_argument("--pausa", type=float, default=2.0, help="segundos entre descargas")
+    parser.add_argument("--pausa", type=float, default=5.0, help="segundos entre descargas")
     parser.add_argument("--min-articulos", type=int, default=10, help="mínimo de artículos por norma")
     args = parser.parse_args(argv)
 

@@ -45,7 +45,7 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from descargar_normas import USER_AGENT, escribir_atomico  # noqa: E402
+from descargar_normas import USER_AGENT, _espera_reintento, escribir_atomico  # noqa: E402
 
 URL_INDICE = "https://www.sii.cl/normativa_legislacion/circulares/{ano}/indcir{ano}.htm"
 PRIMER_ANO = 2013
@@ -134,7 +134,7 @@ def _get(url: str, intentos: int = 4, timeout: float = 90.0) -> bytes:
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             ultimo = exc
         if intento < intentos:
-            time.sleep(min(60, 5 * 2 ** (intento - 1)))
+            time.sleep(_espera_reintento(ultimo, intento))
     raise ErrorCircular(f"no se pudo descargar {url} tras {intentos} intentos: {ultimo}")
 
 
@@ -183,7 +183,7 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="lee todos los índices y prueba un PDF por año, sin escribir archivos",
     )
-    parser.add_argument("--pausa", type=float, default=1.0)
+    parser.add_argument("--pausa", type=float, default=2.0, help="segundos entre descargas")
     args = parser.parse_args(argv)
 
     anos = args.anos or list(range(PRIMER_ANO, dt.date.today().year + 1))
