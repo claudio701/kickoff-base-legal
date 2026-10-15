@@ -40,7 +40,7 @@ jobs:
   actualizar:
     name: Descargar normas y circulares
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 360
     env:
       # Para pruebas: limitar la descarga de prueba a estos slugs (separados por espacio).
       SLUGS_PRUEBA: ""
@@ -64,7 +64,7 @@ jobs:
         run: python -m pytest -q tests
 
       - name: Descargar códigos de LeyChile
-        timeout-minutes: 100
+        timeout-minutes: 180
         run: |
           if [ "$SOLO_PROBAR" = "true" ]; then
             destino="$RUNNER_TEMP/base"
