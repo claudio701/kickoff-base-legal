@@ -85,7 +85,10 @@ jobs:
           raiz = Path(sys.argv[1])
           indice = json.loads((raiz / "index.json").read_text(encoding="utf-8"))
           filas, errores = [], []
+          pedidos = set(__import__("os").environ.get("SLUGS_PRUEBA", "").split()) if raiz.name == "base" else set()
           for c in indice["codigos"]:
+              if pedidos and c["slug"] not in pedidos:
+                  continue
               ruta = raiz / c["archivo"]
               if not ruta.is_file():
                   errores.append(f"falta {c['archivo']}")
