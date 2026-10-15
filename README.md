@@ -19,5 +19,15 @@ Servida vía jsDelivr/raw para consumo directo desde la app web (frontend-only).
 2. Citar siempre norma, artículo y fuente oficial (bcn.cl/leychile, sii.cl).
 3. Todo texto lleva la nota: **verificar vigencia antes de citar**.
 
+## Procedencia de `codigos/`
+
+Los 20 textos se tomaron del espejo público [pisanvs/ley-chile](https://github.com/pisanvs/ley-chile)
+(rama `historial`, commit `5bea0546`, corte 2026-08-27), que los reconstruye desde LeyChile/BCN.
+Cada archivo se emparejó por `idNorma` con este índice y lleva en su front-matter la URL oficial
+y el origen. Se quitaron solo los comentarios internos `<!-- parte:N -->` del espejo.
+Antes de citar: **verificar vigencia en LeyChile**.
+
+Las circulares SII (`circulares/`) siguen pendientes.
+
 Fuentes oficiales: https://www.bcn.cl/leychile · https://www.sii.cl
 Actualizado: 2026-08-27
