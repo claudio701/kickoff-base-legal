@@ -43,7 +43,7 @@ jobs:
     timeout-minutes: 240
     env:
       # Para pruebas: limitar la descarga de prueba a estos slugs (separados por espacio).
-      SLUGS_PRUEBA: "codigo-civil codigo-tributario dl-824-renta ley-general-de-bancos"
+      SLUGS_PRUEBA: ""
       SOLO_PROBAR: ${{ (github.event_name == 'push' || inputs.solo_probar) && 'true' || 'false' }}
       CIRCULARES: ${{ (github.event_name != 'workflow_dispatch' || inputs.circulares) && 'true' || 'false' }}
     steps:
@@ -151,7 +151,7 @@ jobs:
         continue-on-error: true
         run: |
           if [ "$SOLO_PROBAR" = "true" ]; then
-            python herramientas/descargar_circulares.py --solo-probar --anos 2026
+            python herramientas/descargar_circulares.py --solo-probar
           else
             python herramientas/descargar_circulares.py
           fi
