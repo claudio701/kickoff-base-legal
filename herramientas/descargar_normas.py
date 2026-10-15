@@ -388,11 +388,11 @@ def _espera_reintento(exc: Exception | None, intento: int) -> float:
     if isinstance(exc, urllib.error.HTTPError):
         crudo = (exc.headers or {}).get("Retry-After", "")
         if str(crudo).strip().isdigit():
-            return min(300.0, float(crudo))
+            return min(900.0, float(crudo))
     return float(min(180, 15 * 2 ** (intento - 1)))
 
 
-def descargar(id_norma: int, intentos: int = 6, timeout: float = 120.0) -> bytes:
+def descargar(id_norma: int, intentos: int = 8, timeout: float = 120.0) -> bytes:
     """GET al servicio oficial con reintentos ante errores de red, 5xx o 429 (límite de tasa)."""
     url = URL_XML.format(id_norma=id_norma)
     peticion = urllib.request.Request(
@@ -446,7 +446,7 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="descarga y valida sin escribir archivos (para probar en CI)",
     )
-    parser.add_argument("--pausa", type=float, default=5.0, help="segundos entre descargas")
+    parser.add_argument("--pausa", type=float, default=15.0, help="segundos entre descargas (LeyChile limita la tasa)")
     parser.add_argument("--min-articulos", type=int, default=10, help="mínimo de artículos por norma")
     args = parser.parse_args(argv)
 

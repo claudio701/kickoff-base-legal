@@ -40,7 +40,7 @@ jobs:
   actualizar:
     name: Descargar normas y circulares
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 240
     env:
       SOLO_PROBAR: ${{ (github.event_name == 'push' || inputs.solo_probar) && 'true' || 'false' }}
       CIRCULARES: ${{ (github.event_name != 'workflow_dispatch' || inputs.circulares) && 'true' || 'false' }}
@@ -62,14 +62,15 @@ jobs:
         run: python -m pytest -q tests
 
       - name: Descargar códigos de LeyChile
+        timeout-minutes: 100
         run: |
           if [ "$SOLO_PROBAR" = "true" ]; then
             destino="$RUNNER_TEMP/base"
             mkdir -p "$destino"
             cp index.json "$destino/"
-            python herramientas/descargar_normas.py --raiz "$destino"
+            python herramientas/descargar_normas.py --raiz "$destino" --pausa 20
           else
-            python herramientas/descargar_normas.py
+            python herramientas/descargar_normas.py --pausa 20
           fi
 
       - name: Validar códigos generados
