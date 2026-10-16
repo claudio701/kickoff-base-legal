@@ -314,5 +314,12 @@
     "educacion"
    ]
   }
- ]
+ ],
+ "fallos_tta": {
+  "total": null,
+  "metadata": "tta/metadata.json",
+  "textoPattern": "tta/texto/{id}.md",
+  "fuente": "https://www.tta.cl/category/fallos-relevantes/",
+  "nota": "Reseña y sentencias publicadas por los Tribunales Tributarios y Aduaneros en tta.cl; el texto de los PDF se extrajo automáticamente. Verificar vigencia antes de citar."
+ }
 }
