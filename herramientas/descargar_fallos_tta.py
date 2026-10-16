@@ -190,6 +190,19 @@ def componer_markdown(entrada: dict, sentencias: list[dict]) -> str:
 # --------------------------------------------------------------------------- red
 
 
+def url_ascii(url: str) -> str:
+    """Codifica en %XX los caracteres no ASCII de una URL (p. ej. "N°" en el nombre de un PDF).
+
+    urllib exige URLs ASCII; WordPress publica enlaces con tildes y "°" sin codificar. Los "%"
+    ya presentes se respetan para no codificar dos veces.
+    """
+    partes = urllib.parse.urlsplit(url)
+    host = partes.netloc.encode("idna").decode("ascii") if not partes.netloc.isascii() else partes.netloc
+    ruta = urllib.parse.quote(partes.path, safe="/%:@!$&'()*+,;=-._~")
+    consulta = urllib.parse.quote(partes.query, safe="=&%:@!$'()*+,;/?-._~")
+    return urllib.parse.urlunsplit((partes.scheme, host, ruta, consulta, partes.fragment))
+
+
 class Cliente:
     """GET con User-Agent identificable, pausa mínima entre pedidos, Retry-After y robots.txt."""
 
@@ -207,6 +220,7 @@ class Cliente:
             time.sleep(falta)
 
     def get(self, url: str, *, permitir_404: bool = False) -> bytes | None:
+        url = url_ascii(url)
         if self._robots is not None and not self._robots.can_fetch(AGENTE_ROBOTS, url):
             raise ErrorTTA(f"robots.txt de tta.cl prohíbe {url}; no se descarga")
         peticion = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -341,7 +355,7 @@ def main(argv: list[str] | None = None) -> int:
                 continue
             try:
                 texto = extraer_texto(cliente.get(url_pdf) or b"", url_pdf)
-            except (ErrorTTA, ErrorCircular) as exc:
+            except (ErrorTTA, ErrorCircular, ValueError) as exc:
                 errores.append(f"{entrada['id']}: {exc}")
                 print(f"FALLÓ  {entrada['id']}: {exc}", file=sys.stderr, flush=True)
                 sentencia["motivo"] = "no se pudo descargar o leer"
