@@ -1,6 +1,7 @@
 # Actualiza la base legal desde las fuentes oficiales.
 # - Códigos y leyes: LeyChile (BCN), https://www.leychile.cl/Consulta/obtxml?opt=7&idNorma=<id>
-# - Circulares SII: https://www.sii.cl/normativa_legislacion/circulares/{año}/indcir{año}.htm
+# - Las circulares SII NO se publican aquí: los términos de uso del SII (§4 y §5) exigen
+#   autorización expresa para reproducirlas. descargar_circulares.py queda para uso local.
 # - Fallos relevantes TTA: RSS https://www.tta.cl/category/fallos-relevantes/feed/ (robots.txt lo permite)
 # Corre cada lunes y a mano (workflow_dispatch). Si hay cambios y corre sobre main, hace commit
 # directo a main con el bot de Actions.
@@ -25,10 +26,6 @@ on:
         description: "Descargar y validar sin hacer commit"
         type: boolean
         default: false
-      circulares:
-        description: "Incluir circulares SII"
-        type: boolean
-        default: true
       fallos_tta:
         description: "Incluir fallos relevantes TTA"
         type: boolean
@@ -43,7 +40,7 @@ concurrency:
 
 jobs:
   actualizar:
-    name: Descargar normas y circulares
+    name: Descargar normas y fallos TTA
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
@@ -51,7 +48,6 @@ jobs:
       # En push a ramas de trabajo se prueba un solo código (LeyChile limita a ~1 norma/min).
       SLUGS_PRUEBA: ${{ github.event_name == 'push' && 'codigo-tributario' || '' }}
       SOLO_PROBAR: ${{ (github.event_name == 'push' || inputs.solo_probar) && 'true' || 'false' }}
-      CIRCULARES: ${{ (github.event_name != 'workflow_dispatch' || inputs.circulares) && 'true' || 'false' }}
       FALLOS_TTA: ${{ (github.event_name != 'workflow_dispatch' || inputs.fallos_tta) && 'true' || 'false' }}
     steps:
       - name: Obtener código
@@ -152,17 +148,6 @@ jobs:
           path: ${{ runner.temp }}/base/codigos/
           retention-days: 7
 
-      - name: Descargar circulares SII
-        id: circulares
-        if: env.CIRCULARES == 'true'
-        continue-on-error: true
-        run: |
-          if [ "$SOLO_PROBAR" = "true" ]; then
-            python herramientas/descargar_circulares.py --solo-probar
-          else
-            python herramientas/descargar_circulares.py
-          fi
-
       - name: Descargar fallos relevantes TTA
         id: fallos_tta
         if: env.FALLOS_TTA == 'true'
@@ -178,7 +163,7 @@ jobs:
       - name: Commit y push a main
         if: env.SOLO_PROBAR != 'true' && github.ref == 'refs/heads/main'
         run: |
-          for ruta in codigos circulares tta index.json; do
+          for ruta in codigos tta index.json; do
             [ -e "$ruta" ] && git add -A "$ruta"
           done
           if git diff --cached --quiet; then
@@ -187,18 +172,13 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "base: actualización automática desde LeyChile, SII y TTA ($(date -u +%F))"
+          git commit -m "base: actualización automática desde LeyChile y TTA ($(date -u +%F))"
           for intento in 1 2 3; do
             git pull --rebase origin main && git push origin HEAD:main && exit 0
             sleep $((intento * 10))
           done
           echo "::error::No se pudo hacer push a main"
           exit 1
-
-      - name: Avisar si fallaron las circulares
-        if: steps.circulares.outcome == 'failure'
-        run: |
-          echo "::warning::La descarga de circulares SII terminó con errores (ver el paso 'Descargar circulares SII'). Los códigos sí se procesaron."
 
       - name: Avisar si fallaron los fallos TTA
         if: steps.fallos_tta.outcome == 'failure'

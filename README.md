@@ -7,10 +7,8 @@ Servida vía jsDelivr/raw para consumo directo desde la app web (frontend-only).
 
 | Ruta | Contenido |
 |---|---|
-| `index.json` | Índice maestro: códigos, circulares y documentos con temas y rutas |
+| `index.json` | Índice maestro: códigos, fallos TTA, documentos y metadatos de circulares (no publicadas) |
 | `codigos/*.md` | 20 textos legales consolidados (Constitución, C. Tributario, IVA, Renta, Civil, Trabajo, Penal, Comercio, CPC, CPP, COT, LGB, LSA, LPI 19.039, Insolvencia 20.720, Consumidor 19.496, Ley 18.092, DFL 707, Ley 20.027, Territorial 17.235) con front-matter (idNorma, fuente LeyChile) |
-| `circulares/metadata/{año}.json` | 873 circulares SII 2013–2026: número, fecha, materia, URL oficial del PDF |
-| `circulares/texto/{año}/circu{n}.txt` | Texto completo de cada circular (despliegue progresivo) |
 | `tta/metadata.json` | Fallos relevantes de los Tribunales Tributarios y Aduaneros (TTA): id, fecha, carátula, materia, etiquetas, URL oficial de la reseña y de cada PDF |
 | `tta/texto/tta-{id}.md` | Reseña del TTA + texto extraído de cada sentencia en PDF, con front-matter y nota de vigencia (se genera en la primera corrida del workflow en `main`) |
 | `documentos/*.md` | 5 informes de investigación jurídica (prescripción, usufructo vs. hipoteca, derechos del niño, jurisprudencia administrativa SII, magíster UAI) |
@@ -20,7 +18,7 @@ Servida vía jsDelivr/raw para consumo directo desde la app web (frontend-only).
 | Herramienta | Qué hace |
 |---|---|
 | `herramientas/descargar_normas.py` | Baja cada código de `index.json` desde el servicio XML oficial de LeyChile (`https://www.leychile.cl/Consulta/obtxml?opt=7&idNorma=<id>`) y escribe `codigos/<slug>.md` con front-matter (`idNorma`, `titulo`, `fuente`, `fecha_version`, nota de vigencia). Todo o nada: si una norma falla, no escribe nada. Solo biblioteca estándar. |
-| `herramientas/descargar_circulares.py` | Lee los índices anuales del SII (`https://www.sii.cl/normativa_legislacion/circulares/{año}/indcir{año}.htm`), escribe `circulares/metadata/{año}.json` y extrae el texto de cada PDF a `circulares/texto/{año}/circu{n}.txt` (requiere `pypdf`). Incremental. |
+| `herramientas/descargar_circulares.py` | Lee los índices anuales del SII (`https://www.sii.cl/normativa_legislacion/circulares/{año}/indcir{año}.htm`), escribe `circulares/metadata/{año}.json` y extrae el texto de cada PDF a `circulares/texto/{año}/circu{n}.txt` (requiere `pypdf`). Incremental. **Solo uso local: el workflow no la corre ni publica su salida** (ver nota sobre los términos del SII). |
 | `herramientas/descargar_fallos_tta.py` | Lee el RSS público de WordPress `https://www.tta.cl/category/fallos-relevantes/feed/?paged=N`, escribe `tta/metadata.json` y `tta/texto/tta-{id}.md` (reseña + texto de los PDF de sentencias, con `pypdf`). Revisa `robots.txt` antes de pedir nada, User-Agent con la URL de este repo, ≥5 s entre pedidos, respeta `Retry-After`. Incremental. |
 | `.github/workflows/actualizar-base.yml` | Corre los scripts cada lunes y a mano; si hay cambios en `main`, hace commit con el bot de Actions. Con `solo_probar: true` descarga y valida sin commitear. |
 
@@ -29,7 +27,7 @@ pip install -r herramientas/requirements.txt
 python -m pytest -q tests
 python herramientas/descargar_normas.py --solo-probar   # valida sin escribir
 python herramientas/descargar_normas.py                 # escribe codigos/*.md
-python herramientas/descargar_circulares.py --anos 2026
+python herramientas/descargar_circulares.py --anos 2026   # solo local; circulares/ está en .gitignore
 python herramientas/descargar_fallos_tta.py --solo-probar   # robots.txt + 1 página RSS + 2 fallos, sin escribir
 python herramientas/descargar_fallos_tta.py                 # escribe tta/
 ```
@@ -51,9 +49,9 @@ contenido público, sin login, sin captchas y respetando `robots.txt` y término
 | Tribunal Constitucional | **Descartada** | `tribunalconstitucional.cl` responde HTTP 403 a `/robots.txt` y a la portada desde GitHub Actions; no se evaden bloqueos. |
 | Poder Judicial — `juris.pjud.cl` | **Descartada** | `robots.txt`: `User-agent: * / Disallow: /` (y bloqueos explícitos a bots de IA); la búsqueda usa reCAPTCHA. |
 
-> Atención: la cláusula del SII citada arriba también alcanza a las circulares que ya descarga
-> `descargar_circulares.py`. Antes de seguir publicándolas en este repositorio público conviene
-> pedir autorización expresa al SII o dejarlas fuera del repositorio.
+> Circulares SII: la cláusula citada arriba también las alcanza. Por eso este repositorio público
+> **no las publica**: el workflow no corre `descargar_circulares.py` y `circulares/` está en
+> `.gitignore`. Para publicarlas hace falta autorización expresa y por escrito del SII.
 
 ## Reglas de uso (Kickoff)
 
