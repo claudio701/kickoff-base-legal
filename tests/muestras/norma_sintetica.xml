@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MUESTRA SINTÉTICA para pruebas unitarias. NO es una norma real ni un texto legal vigente.
+  Construida a mano siguiendo la estructura documentada del servicio
+  https://www.leychile.cl/Consulta/obtxml?opt=7&idNorma=<id>
+  (esquema http://www.leychile.cl/esquemas/EsquemaIntercambioNorma-v1-0.xsd).
+  El idNorma 999999 y todo el contenido son ficticios.
+-->
+<Norma xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.leychile.cl/esquemas" xmlns:aem="http://valida.aem.gob.cl" normaId="999999" esTratado="no tratado" fechaVersion="2026-01-15" SchemaVersion="1.0" derogado="no derogado">
+  <Identificador fechaPromulgacion="2020-01-02" fechaPublicacion="2020-01-10">
+    <TiposNumeros>
+      <TipoNumero>
+        <Tipo>Ley</Tipo>
+        <Numero>99999</Numero>
+      </TipoNumero>
+    </TiposNumeros>
+    <Organismos>
+      <Organismo>MINISTERIO DE PRUEBAS</Organismo>
+    </Organismos>
+  </Identificador>
+  <Metadatos>
+    <TituloNorma>LEY SINTETICA
+DE PRUEBA</TituloNorma>
+    <Materias><Materia>Prueba</Materia></Materias>
+    <IdentificacionFuente>Diario Oficial</IdentificacionFuente>
+    <NumeroFuente>1</NumeroFuente>
+  </Metadatos>
+  <Encabezado fechaVersion="2020-01-10" derogado="no derogado">
+    <Texto>LEY SINTETICA DE PRUEBA
+
+     Teniendo presente que el H. Congreso Nacional ha dado
+su aprobación al siguiente
+
+     Proyecto de ley:
+</Texto>
+  </Encabezado>
+  <EstructurasFuncionales>
+    <EstructuraFuncional idParte="1" tipoParte="Título" fechaVersion="2020-01-10" derogado="no derogado" transitorio="no transitorio">
+      <Texto>TITULO I
+Disposiciones generales</Texto>
+      <Metadatos>
+        <NombreParte presente="si">I</NombreParte>
+        <TituloParte presente="si">Disposiciones generales</TituloParte>
+      </Metadatos>
+      <EstructurasFuncionales>
+        <EstructuraFuncional idParte="2" tipoParte="Artículo" fechaVersion="2020-01-10" derogado="no derogado" transitorio="no transitorio">
+          <Texto>Artículo 1°.- Esta ley sintética regula el plazo de
+prueba de diez días hábiles.                              LEY 99998
+                                                          Art. 1 N° 2
+                                                          D.O. 01.02.2021
+     Lo dispuesto en el inciso anterior se aplica a:
+     a) los casos de prueba, y
+     b) las muestras.</Texto>
+          <Metadatos>
+            <NombreParte presente="si">1</NombreParte>
+            <TituloParte presente="no"/>
+          </Metadatos>
+        </EstructuraFuncional>
+        <EstructuraFuncional idParte="3" tipoParte="Artículo" fechaVersion="2020-01-10" derogado="no derogado" transitorio="no transitorio">
+          <Texto>Artículo 2 bis.- La prescripción de prueba se interrumpe
+según el artículo 1° de esta ley.<aem:ArchivoBinario><aem:Nombre>figura.jpg</aem:Nombre><aem:DataCodificada>QUJD</aem:DataCodificada></aem:ArchivoBinario>Texto posterior a la figura.</Texto>
+          <Metadatos>
+            <NombreParte presente="si">2 bis (DEL ART. 1)</NombreParte>
+          </Metadatos>
+        </EstructuraFuncional>
+        <EstructuraFuncional idParte="4" tipoParte="Artículo" fechaVersion="2021-02-01" derogado="derogado" transitorio="no transitorio">
+          <Texto>Art. 3. Derogado.</Texto>
+          <Metadatos>
+            <NombreParte presente="si">3</NombreParte>
+          </Metadatos>
+        </EstructuraFuncional>
+      </EstructurasFuncionales>
+    </EstructuraFuncional>
+    <EstructuraFuncional idParte="5" tipoParte="Artículo" fechaVersion="2020-01-10" derogado="no derogado" transitorio="transitorio">
+      <Texto>Artículo primero transitorio.- Esta ley sintética rige desde su publicación.</Texto>
+      <Metadatos>
+        <NombreParte presente="si">primero</NombreParte>
+      </Metadatos>
+    </EstructuraFuncional>
+  </EstructurasFuncionales>
+  <Promulgacion fechaVersion="2020-01-10" derogado="no derogado">
+    <Texto>Y por cuanto he tenido a bien aprobarlo y sancionarlo; por tanto promúlguese.</Texto>
+  </Promulgacion>
+</Norma>

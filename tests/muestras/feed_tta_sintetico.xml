@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MUESTRA SINTÉTICA: imita la estructura del RSS 2.0 de WordPress de
+     https://www.tta.cl/category/fallos-relevantes/feed/ . Carátulas, fechas, ids y textos son FICTICIOS. -->
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+	<title>Fallos Relevantes archivos - Prueba</title>
+	<link>https://www.tta.cl/category/fallos-relevantes/</link>
+	<item>
+		<title>TTA de Prueba: Sociedad Ficticia SpA con SII Dirección Regional Ficticia</title>
+		<link>https://www.tta.cl/sociedad-ficticia-spa-con-sii/</link>
+		<dc:creator><![CDATA[editor]]></dc:creator>
+		<pubDate>Tue, 29 Sep 2030 18:18:58 +0000</pubDate>
+		<category><![CDATA[Fallos Relevantes]]></category>
+		<category><![CDATA[Noticias]]></category>
+		<category><![CDATA[iva]]></category>
+		<guid isPermaLink="false">https://www.tta.cl/?p=9001</guid>
+		<description><![CDATA[<p>Se acoge el reclamo sint&eacute;tico de prueba.</p>
+<p>La entrada <a href="https://www.tta.cl/sociedad-ficticia-spa-con-sii/">TTA de Prueba</a> se publicó primero en <a href="https://www.tta.cl">Tribunales Tributarios y Aduaneros de Chile</a>.</p>
+]]></description>
+		<content:encoded><![CDATA[<style>.ttafr{color:#000}</style>
+<div class="ttafr"><h3><span>1</span> Car&aacute;tula</h3><p>&#8220;SOCIEDAD FICTICIA SPA CON SII&#8221;.</p>
+<h3><span>2</span> Fechas de sentencias</h3><ul><li>01-01-2030 (Tribunal de Prueba) <a href="https://www.tta.cl/wp-content/uploads/2030/09/SENT-PRUEBA.pdf">Ver sentencia PDF</a></li>
+<li># línea que empieza con almohadilla</li>
+<li><a href="https://www.tta.cl/wp-content/uploads/2030/09/SENT-PRUEBA.pdf">duplicado</a> <a href='https://otro.example/externo.pdf'>externo</a></li></ul></div>
+<p>La entrada <a href="https://www.tta.cl/x/">X</a> se publicó primero en <a href="https://www.tta.cl">Tribunales Tributarios y Aduaneros de Chile</a>.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>TTA de Prueba: Persona Ficticia con Aduanas</title>
+		<link>https://www.tta.cl/persona-ficticia-con-aduanas/</link>
+		<pubDate>Fri, 30 Apr 2021 20:46:03 +0000</pubDate>
+		<category><![CDATA[Fallos Relevantes]]></category>
+		<guid isPermaLink="false">https://www.tta.cl/?p=9000</guid>
+		<description><![CDATA[<p>Reseña antigua sin PDF.</p>]]></description>
+		<content:encoded><![CDATA[<p>Car&aacute;tula :</p><p>&bull; Persona Ficticia con Aduanas.</p>]]></content:encoded>
+	</item>
+</channel>
+</rss>
