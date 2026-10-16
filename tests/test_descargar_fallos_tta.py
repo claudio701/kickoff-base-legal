@@ -140,3 +140,17 @@ def test_robots_prohibe() -> None:
 
 def test_pausa_minima() -> None:
     assert tta.Cliente(pausa=1).pausa == tta.PAUSA_MINIMA
+
+
+def test_url_ascii_codifica_caracteres_no_ascii() -> None:
+    # Caso real (run 38853396440): un PDF de tta.cl con "N°" en el nombre botaba urllib.
+    url = "https://www.tta.cl/wp-content/uploads/2021/05/Sentencia-RUC-N°-20-9-0000123-4.pdf"
+    codificada = tta.url_ascii(url)
+    assert codificada.isascii()
+    assert codificada == "https://www.tta.cl/wp-content/uploads/2021/05/Sentencia-RUC-N%C2%B0-20-9-0000123-4.pdf"
+
+
+def test_url_ascii_no_codifica_dos_veces() -> None:
+    url = "https://www.tta.cl/category/fallos-relevantes/feed/?paged=2&x=%C2%B0"
+    assert tta.url_ascii(url) == url
+    assert tta.url_ascii("https://www.tta.cl/año/fallo.pdf") == "https://www.tta.cl/a%C3%B1o/fallo.pdf"
