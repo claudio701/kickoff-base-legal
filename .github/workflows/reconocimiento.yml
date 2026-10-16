@@ -33,19 +33,20 @@ jobs:
                           print("  LINK", href, "|", txt[:120])
               print(t[:n])
               return t
-          for d in ["https://www.sii.cl", "https://www.contraloria.cl", "https://www.tribunalconstitucional.cl",
-                    "https://www.tta.cl", "https://juris.pjud.cl", "https://datos.gob.cl", "https://www.pjud.cl"]:
-              get(d + "/robots.txt", n=3000)
-          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/", n=1500, enlaces=True, filtro=r"jurisprudencia|jadm|ley_")
-          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/ley_impuesto_ventas/2017/ley_impuesto_ventas_jadm2017.htm", n=6000)
-          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/ley_impuesto_ventas/2025/ley_impuesto_ventas_jadm2025.htm", n=6000)
-          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/ley_impuesto_renta/2025/ley_impuesto_renta_jadm2025.htm", n=3000)
-          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/codigo_tributario/2025/codigo_tributario_jadm2025.htm", n=3000)
-          get("https://www.sii.cl/aviso_legal.htm", n=3000)
-          get("https://www.sii.cl/", n=0, enlaces=True, filtro=r"legal|t[ée]rminos|condiciones|privacidad|jurisprudencia")
-          get("https://www.contraloria.cl/", n=2000, enlaces=True, filtro=r"dictamen|jurisprudencia|datos|t[ée]rminos|condiciones|legal|api")
-          get("https://datos.gob.cl/api/3/action/package_search?q=contraloria%20dictamenes&rows=10", n=5000)
-          get("https://www.tta.cl/", n=1500, enlaces=True, filtro=r"sentencia|jurisprudencia|fallo|t[ée]rminos|condiciones|legal|buscador")
-          get("https://www.tribunalconstitucional.cl/", n=1500, enlaces=True, filtro=r"sentencia|jurisprudencia|t[ée]rminos|condiciones|legal|buscador|datos")
-          get("https://juris.pjud.cl/", n=2500, enlaces=True)
+          def texto(url, n=12000):
+              t = get(url, n=0)
+              t = re.sub(r"<(script|style)\b.*?</\1>", " ", t, flags=re.S | re.I)
+              t = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", t)))
+              print("TEXTO:", t[:n])
+          texto("https://www.sii.cl/sobre_el_sii/terminos_sitio_web.html", n=20000)
+          for d in ["https://ojv.tta.cl", "https://www3.sii.cl", "https://www.tta.cl"]:
+              get(d + "/robots.txt", n=1500)
+          get("https://www.tta.cl/fallos_relevantes/", n=3000, enlaces=True, filtro=r"fallo|sentencia|pdf|t[ée]rminos|condiciones|legal|privacidad|page")
+          get("https://www.tta.cl/wp-json/wp/v2/categories?slug=fallos-relevantes", n=3000)
+          get("https://www.tta.cl/wp-json/wp/v2/types", n=3000)
+          get("https://www.tta.cl/sitemap_index.xml", n=4000)
+          get("https://www.tta.cl/nuevos-buscadores/", n=0, enlaces=True, filtro=r"ojv|buscador|t[ée]rminos|condiciones|legal")
+          get("https://ojv.tta.cl/", n=3000, enlaces=True)
+          get("https://datos.gob.cl/dataset?q=dictamenes", n=0, enlaces=True, filtro=r"/dataset/")
+          get("https://datos.gob.cl/organization/", n=0, enlaces=True, filtro=r"contralor")
           PY
