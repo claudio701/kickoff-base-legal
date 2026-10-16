@@ -336,7 +336,7 @@
   }
  ],
  "fallos_tta": {
-  "total": null,
+  "total": 34,
   "metadata": "tta/metadata.json",
   "textoPattern": "tta/texto/{id}.md",
   "fuente": "https://www.tta.cl/category/fallos-relevantes/",
