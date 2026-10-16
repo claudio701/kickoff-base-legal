@@ -1,245 +1,265 @@
 {
- "version": "2026-08-27",
+ "version": "2026-10-16",
  "codigos": [
   {
    "slug": "codigo-civil",
    "nombre": "Código Civil",
    "idNorma": 172986,
    "archivo": "codigos/codigo-civil.md",
-   "articulos": 3328,
+   "articulos": 2575,
    "temas": [
     "civil"
    ],
-   "bytes": 1260213
+   "bytes": 925627,
+   "fechaVersion": "2222-02-02"
   },
   {
    "slug": "codigo-de-comercio",
    "nombre": "Código de Comercio",
    "idNorma": 1974,
    "archivo": "codigos/codigo-de-comercio.md",
-   "articulos": 1675,
+   "articulos": 1524,
    "temas": [
     "comercial"
    ],
-   "bytes": 523961
+   "bytes": 486747,
+   "fechaVersion": "2023-09-23"
   },
   {
    "slug": "codigo-del-trabajo",
    "nombre": "Código del Trabajo (DFL N° 1, de 2002, del Ministerio del Trabajo y Previsión Social)",
    "idNorma": 207436,
    "archivo": "codigos/codigo-del-trabajo.md",
-   "articulos": 1297,
+   "articulos": 737,
    "temas": [
     "laboral"
    ],
-   "bytes": 708875
+   "bytes": 711435,
+   "fechaVersion": "2026-07-23"
   },
   {
    "slug": "codigo-organico-tribunales",
    "nombre": "Código Orgánico de Tribunales",
    "idNorma": 25563,
    "archivo": "codigos/codigo-organico-tribunales.md",
-   "articulos": 988,
+   "articulos": 680,
    "temas": [
     "procesal",
     "litigios"
    ],
-   "bytes": 576645
+   "bytes": 533434,
+   "fechaVersion": "2026-04-02"
   },
   {
    "slug": "codigo-penal",
    "nombre": "Código Penal",
    "idNorma": 1984,
    "archivo": "codigos/codigo-penal.md",
-   "articulos": 911,
+   "articulos": 677,
    "temas": [
     "penal"
    ],
-   "bytes": 438168
+   "bytes": 393568,
+   "fechaVersion": "2222-02-02"
   },
   {
    "slug": "codigo-procedimiento-civil",
    "nombre": "Código de Procedimiento Civil",
    "idNorma": 22740,
    "archivo": "codigos/codigo-procedimiento-civil.md",
-   "articulos": 1274,
+   "articulos": 933,
    "temas": [
     "procesal",
     "civil",
     "litigios"
    ],
-   "bytes": 467740
+   "bytes": 436961,
+   "fechaVersion": "2022-06-30"
   },
   {
    "slug": "codigo-procesal-penal",
    "nombre": "Código Procesal Penal",
    "idNorma": 176595,
    "archivo": "codigos/codigo-procesal-penal.md",
-   "articulos": 900,
+   "articulos": 563,
    "temas": [
     "procesal",
     "penal",
     "litigios"
    ],
-   "bytes": 501084
+   "bytes": 465096,
+   "fechaVersion": "2026-10-10"
   },
   {
    "slug": "codigo-tributario",
    "nombre": "Código Tributario (Decreto Ley 830)",
    "idNorma": 6374,
    "archivo": "codigos/codigo-tributario.md",
-   "articulos": 645,
+   "articulos": 256,
    "temas": [
     "tributario",
     "sii"
    ],
-   "bytes": 465493
+   "bytes": 444695,
+   "fechaVersion": "2025-07-11"
   },
   {
    "slug": "constitucion-politica",
    "nombre": "Constitución Política de la República de Chile",
    "idNorma": 242302,
    "archivo": "codigos/constitucion-politica.md",
-   "articulos": 414,
+   "articulos": 224,
    "temas": [
     "constitucional"
    ],
-   "bytes": 399781
+   "bytes": 375650,
+   "fechaVersion": "2026-04-16"
   },
   {
    "slug": "dfl-707-cheques",
    "nombre": "DFL 707 - Fija texto refundido de la ley sobre cuentas corrientes bancarias y cheques",
    "idNorma": 5594,
    "archivo": "codigos/dfl-707-cheques.md",
-   "articulos": 69,
+   "articulos": 50,
    "temas": [
     "comercial",
     "cheques"
    ],
-   "bytes": 28644
+   "bytes": 27188,
+   "fechaVersion": "2019-07-18"
   },
   {
    "slug": "dl-824-renta",
    "nombre": "Ley sobre Impuesto a la Renta (Decreto Ley 824)",
    "idNorma": 6368,
    "archivo": "codigos/dl-824-renta.md",
-   "articulos": 908,
+   "articulos": 178,
    "temas": [
     "tributario",
     "renta"
    ],
-   "bytes": 612090
+   "bytes": 592324,
+   "fechaVersion": "2026-03-27"
   },
   {
    "slug": "dl-825-iva",
    "nombre": "Ley sobre Impuesto a las Ventas y Servicios (Decreto Ley 825)",
    "idNorma": 6369,
    "archivo": "codigos/dl-825-iva.md",
-   "articulos": 269,
+   "articulos": 114,
    "temas": [
     "tributario",
     "sii",
     "iva"
    ],
-   "bytes": 180313
+   "bytes": 178183,
+   "fechaVersion": "2026-02-05"
   },
   {
    "slug": "ley-17235-territorial",
    "nombre": "Ley N° 17.235 sobre Impuesto Territorial (texto refundido DFL 1/1998)",
    "idNorma": 128563,
    "archivo": "codigos/ley-17235-territorial.md",
-   "articulos": 98,
+   "articulos": 34,
    "temas": [
     "tributario",
     "territorial",
     "contribuciones"
    ],
-   "bytes": 57166
+   "bytes": 58110,
+   "fechaVersion": "2025-03-29"
   },
   {
    "slug": "ley-18046-sociedades",
    "nombre": "Ley N° 18.046 sobre Sociedades Anónimas",
    "idNorma": 29473,
    "archivo": "codigos/ley-18046-sociedades.md",
-   "articulos": 356,
+   "articulos": 176,
    "temas": [
     "comercial",
     "societario"
    ],
-   "bytes": 200159
+   "bytes": 201935,
+   "fechaVersion": "2026-01-01"
   },
   {
    "slug": "ley-18092-letra-pagare",
    "nombre": "Ley 18.092 - Dicta nuevas normas sobre letra de cambio y pagaré",
    "idNorma": 29517,
    "archivo": "codigos/ley-18092-letra-pagare.md",
-   "articulos": 149,
+   "articulos": 116,
    "temas": [
     "comercial",
     "cambiario"
    ],
-   "bytes": 50896
+   "bytes": 46585,
+   "fechaVersion": "2014-01-09"
   },
   {
    "slug": "ley-19039-propiedad-industrial",
    "nombre": "Ley N° 19.039 de Propiedad Industrial",
    "idNorma": 30406,
    "archivo": "codigos/ley-19039-propiedad-industrial.md",
-   "articulos": 209,
+   "articulos": 151,
    "temas": [
     "marcas",
     "inapi",
     "propiedad-industrial"
    ],
-   "bytes": 108210
+   "bytes": 109621,
+   "fechaVersion": "2005-03-11"
   },
   {
    "slug": "ley-19496-consumidor",
    "nombre": "Ley 19.496 - Establece normas sobre protección de los derechos de los consumidores",
    "idNorma": 61438,
    "archivo": "codigos/ley-19496-consumidor.md",
-   "articulos": 278,
+   "articulos": 148,
    "temas": [
     "consumidor",
     "comercial"
    ],
-   "bytes": 227097
+   "bytes": 206627,
+   "fechaVersion": "2021-04-20"
   },
   {
    "slug": "ley-20027-cae",
    "nombre": "Ley 20.027 - Establece normas para el financiamiento de estudios de educación superior",
    "idNorma": 239034,
    "archivo": "codigos/ley-20027-cae.md",
-   "articulos": 102,
+   "articulos": 53,
    "temas": [
     "bancario",
     "consumidor",
     "educacion"
    ],
-   "bytes": 59048
+   "bytes": 54349,
+   "fechaVersion": "2012-10-04"
   },
   {
    "slug": "ley-20720-insolvencia",
    "nombre": "Ley 20.720 - Sustituye el régimen concursal por una ley de reorganización y liquidación de empresas y personas",
    "idNorma": 1058072,
    "archivo": "codigos/ley-20720-insolvencia.md",
-   "articulos": 1092,
+   "articulos": 455,
    "temas": [
     "insolvencia"
    ],
-   "bytes": 587050
+   "bytes": 538077,
+   "fechaVersion": "2023-12-30"
   },
   {
    "slug": "ley-general-de-bancos",
    "nombre": "Ley General de Bancos (DFL N° 3, de 1997, del Ministerio de Hacienda)",
    "idNorma": 83135,
    "archivo": "codigos/ley-general-de-bancos.md",
-   "articulos": 363,
+   "articulos": 182,
    "temas": [
     "bancario",
     "comercial"
    ],
-   "bytes": 211710
+   "bytes": 216728,
+   "fechaVersion": "2025-12-17"
   }
  ],
  "circulares": {
