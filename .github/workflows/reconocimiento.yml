@@ -38,15 +38,22 @@ jobs:
               t = re.sub(r"<(script|style)\b.*?</\1>", " ", t, flags=re.S | re.I)
               t = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", t)))
               print("TEXTO:", t[:n])
-          texto("https://www.sii.cl/sobre_el_sii/terminos_sitio_web.html", n=20000)
-          for d in ["https://ojv.tta.cl", "https://www3.sii.cl", "https://www.tta.cl"]:
-              get(d + "/robots.txt", n=1500)
-          get("https://www.tta.cl/fallos_relevantes/", n=3000, enlaces=True, filtro=r"fallo|sentencia|pdf|t[ée]rminos|condiciones|legal|privacidad|page")
-          get("https://www.tta.cl/wp-json/wp/v2/categories?slug=fallos-relevantes", n=3000)
-          get("https://www.tta.cl/wp-json/wp/v2/types", n=3000)
-          get("https://www.tta.cl/sitemap_index.xml", n=4000)
-          get("https://www.tta.cl/nuevos-buscadores/", n=0, enlaces=True, filtro=r"ojv|buscador|t[ée]rminos|condiciones|legal")
-          get("https://ojv.tta.cl/", n=3000, enlaces=True)
-          get("https://datos.gob.cl/dataset?q=dictamenes", n=0, enlaces=True, filtro=r"/dataset/")
-          get("https://datos.gob.cl/organization/", n=0, enlaces=True, filtro=r"contralor")
+          get("https://www.tta.cl/page-sitemap.xml", n=0, enlaces=False)
+          ps = get("https://www.tta.cl/page-sitemap.xml", n=0)
+          for loc in re.findall(r"<loc>([^<]+)</loc>", ps):
+              print("  PAGE", loc)
+          sm = get("https://www.tta.cl/post-sitemap.xml", n=1500)
+          locs = re.findall(r"<loc>([^<]+)</loc>", sm)
+          print("TOTAL posts en sitemap:", len(locs))
+          for loc in locs[:15]:
+              print("  POST", loc)
+          cat = get("https://www.tta.cl/category/fallos-relevantes/", n=0, enlaces=True, filtro=r"tta\.cl/(?!category|wp-|#)|page/|\.pdf")
+          i = cat.find("<article")
+          print("ARTICLE-FRAGMENTO:", cat[i:i+4000] if i >= 0 else cat[20000:24000])
+          get("https://www.tta.cl/category/fallos-relevantes/feed/", n=6000)
+          o = get("https://ojv.tta.cl/", n=0)
+          for s in re.findall(r'<script[^>]+src="([^"]+)"', o):
+              js = get("https://ojv.tta.cl/" + s.lstrip("/"), n=0)
+              for m in re.finditer(r"jurisprudencia|recaptcha|captcha|fallos-ela|https?://[a-z0-9.-]+tta\.cl[^\"' ]*", js, re.I):
+                  print("  JS", s, m.start(), repr(js[max(0, m.start()-150):m.end()+250]))
           PY
