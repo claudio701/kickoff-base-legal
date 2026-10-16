@@ -1,0 +1,51 @@
+# TEMPORAL: reconocimiento de fuentes (robots.txt, términos, formato). Se borra antes de cerrar.
+name: Reconocimiento de fuentes (temporal)
+on:
+  push:
+    branches: [claude/fuentes-adicionales]
+    paths: [".github/workflows/reconocimiento.yml"]
+jobs:
+  reconocer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Leer robots.txt y páginas de muestra
+        run: |
+          python3 - <<'PY'
+          import re, time, urllib.request, urllib.error, html
+          UA = "Mozilla/5.0 (compatible; kickoff-base-legal/1.0; +https://github.com/claudio701/kickoff-base-legal)"
+          def get(url, n=4000, enlaces=False, filtro=None):
+              time.sleep(6)
+              print(f"\n######## GET {url}", flush=True)
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=60) as r:
+                      datos = r.read()
+                      print("status", r.status, "final", r.geturl(), "ctype", r.headers.get("Content-Type"), "bytes", len(datos))
+              except urllib.error.HTTPError as e:
+                  print("HTTPError", e.code, e.headers.get("Retry-After")); datos = e.read()
+              except Exception as e:
+                  print("ERROR", repr(e)); return ""
+              t = datos.decode("utf-8", "replace")
+              if enlaces:
+                  for href, txt in re.findall(r'<a\b[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>', t, re.S | re.I):
+                      txt = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", txt))).strip()
+                      if filtro is None or re.search(filtro, href + " " + txt, re.I):
+                          print("  LINK", href, "|", txt[:120])
+              print(t[:n])
+              return t
+          for d in ["https://www.sii.cl", "https://www.contraloria.cl", "https://www.tribunalconstitucional.cl",
+                    "https://www.tta.cl", "https://juris.pjud.cl", "https://datos.gob.cl", "https://www.pjud.cl"]:
+              get(d + "/robots.txt", n=3000)
+          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/", n=1500, enlaces=True, filtro=r"jurisprudencia|jadm|ley_")
+          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/ley_impuesto_ventas/2017/ley_impuesto_ventas_jadm2017.htm", n=6000)
+          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/ley_impuesto_ventas/2025/ley_impuesto_ventas_jadm2025.htm", n=6000)
+          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/ley_impuesto_renta/2025/ley_impuesto_renta_jadm2025.htm", n=3000)
+          get("https://www.sii.cl/normativa_legislacion/jurisprudencia_administrativa/codigo_tributario/2025/codigo_tributario_jadm2025.htm", n=3000)
+          get("https://www.sii.cl/aviso_legal.htm", n=3000)
+          get("https://www.sii.cl/", n=0, enlaces=True, filtro=r"legal|t[ée]rminos|condiciones|privacidad|jurisprudencia")
+          get("https://www.contraloria.cl/", n=2000, enlaces=True, filtro=r"dictamen|jurisprudencia|datos|t[ée]rminos|condiciones|legal|api")
+          get("https://datos.gob.cl/api/3/action/package_search?q=contraloria%20dictamenes&rows=10", n=5000)
+          get("https://www.tta.cl/", n=1500, enlaces=True, filtro=r"sentencia|jurisprudencia|fallo|t[ée]rminos|condiciones|legal|buscador")
+          get("https://www.tribunalconstitucional.cl/", n=1500, enlaces=True, filtro=r"sentencia|jurisprudencia|t[ée]rminos|condiciones|legal|buscador|datos")
+          get("https://juris.pjud.cl/", n=2500, enlaces=True)
+          PY
