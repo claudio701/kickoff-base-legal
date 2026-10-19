@@ -7,7 +7,7 @@ fuente: https://www.bcn.cl/leychile/navegar?idNorma=242302
 fuente_xml: https://www.leychile.cl/Consulta/obtxml?opt=7&idNorma=242302
 fecha_version: 2026-04-16
 fecha_publicacion: 2005-09-22
-fecha_descarga: 2026-10-16
+fecha_descarga: 2026-10-19
 estado: "no derogado"
 articulos: 224
 nota: "Texto consolidado descargado del servicio oficial de LeyChile (BCN). Verificar vigencia antes de citar."
@@ -895,53 +895,7 @@ d) Si en la asignación preliminar de consejeros constitucionales electos, resul
 
 i. Se determinará la cantidad de hombres y mujeres que deban aumentar o disminuir, respectivamente, para obtener la distribución indicada en la letra a).
 
-ii. Se ordenarán las listas o pactos que hayan obtenido escaños según lo establecido en la letra b) de acuerdo al total de votos que cada una haya obtenido a nivel nacional, de menor a mayor.
-
-iii. A continuación, se ordenarán las circunscripciones senatoriales en cada lista o pacto que tenga electos del sexo sobrerrepresentado de acuerdo al total de votos en favor de las respectivas listas o pactos electorales, de menor a mayor.
-
-iv. El candidato más votado del sexo subrepresentado de la lista o pacto electoral menos votada a nivel nacional en la circunscripción senatorial en que dicha lista o pacto electoral haya obtenido la menor votación, reemplazará al candidato menos votado del sexo sobrerrepresentado que había resultado electo en la asignación preliminar señalada en la letra b), en dicha circunscripción, correspondiente al mismo partido político o candidatura independiente asociada a un partido político. Si no pudiese realizar el reemplazo un candidato del mismo partido, se reemplazará con el candidato más votado del sexo subrepresentado del mismo pacto electoral en la misma circunscripción senatorial. Si no se pudiera realizar el reemplazo en la circunscripción senatorial menos votada de la lista se continuará en las siguientes circunscripciones senatoriales menos votadas, hasta realizar un reemplazo en la lista o hasta que no queden circunscripciones por revisar.
-
-v. No se aplicará la regla del ordinal iv anterior en aquellas circunscripciones senatoriales en que el principio señalado en la letra a) se hubiese cumplido. Se entenderá cumplido cuando las circunscripciones elijan la misma cantidad de hombres y mujeres o cuando el sexo sobrerrepresentado no supere al subrepresentado en más de uno.
-
-e) Si de la aplicación de la regla señalada en la letra d) no se lograre la representación equitativa, se realizará el mismo procedimiento del ordinal iv de dicha letra en la siguiente lista o pacto electoral menos votado a nivel nacional, y así sucesivamente, repitiendo el procedimiento en las listas tantas veces como sea necesario hasta lograr la representación señalada en la letra a), o hasta que en todas las circunscripciones senatoriales el sexo sobrerrepresentado no supere al subrepresentado en más de uno, en cuyo caso se aplicará la letra f).
-
-f) Con todo, si de la aplicación de las normas anteriores no se alcanzare el principio señalado en la letra a), deberá aplicarse el mismo procedimiento del ordinal iv de la letra d) en las circunscripciones senatoriales en que el sexo sobrerrepresentado supere al sexo subrepresentado en un escaño hasta alcanzar la representación equitativa de hombres y mujeres.
-
-g) Una vez cumplido lo dispuesto en la letra a), se proclamarán electos a los candidatos a quienes se les haya asignado un escaño en conformidad a las reglas anteriores.
-
-El lápiz grafito color negro señalado en el inciso primero del artículo 70 de la ley Nº 18.700, deberá ser de pasta azul, y los poderes de apoderados ante notario indicados en el inciso tercero del artículo 169 de dicho cuerpo legal, podrán ser poderes simples.
-
-4. Todas las candidaturas declaradas por los partidos políticos o pactos electorales deberán cumplir con el requisito sobre afiliación e independencia de las candidaturas establecidas en el artículo 5, incisos cuarto y sexto, de la ley N° 18.700.
-
-5. Las personas comparecientes en la escritura pública de constitución de un partido político en formación, según se señala en la letra a) del inciso primero del artículo 5 de la ley N° 18.603, podrán ser declaradas como candidatos independientes asociados a un partido político que haya celebrado un pacto electoral, salvo que no cumplan con el requisito señalado en el número anterior.
-
-6. El límite de gasto para las candidaturas a integrante del Consejo Constitucional, incluidos los candidatos de pueblos indígenas, será un tercio del total del límite del gasto electoral, que el inciso segundo del artículo 4 de la ley N° 19.884 establece para las candidaturas a senador. En el caso de la circunscripción nacional de pueblos indígenas, se considerará para el cálculo del límite la totalidad de los electores con dicha condición. El financiamiento al inicio de la campaña al que hace referencia el artículo 15 de la ley Nº 19.884, en el caso de las candidaturas correspondientes a pueblos indígenas, se calculará prorrateando entre todos ellos la suma para cada región de los montos correspondientes al partido que haya obtenido el menor número de sufragios en cada territorio en la última elección de senadores. Para la elección del Consejo Constitucional se considerarán:
-
-a) Los siguientes nuevos plazos respecto de los señalados en la ley N° 18.556: el plazo de ciento cuarenta días de los artículos 29 y 31 bis será de cien días; el plazo de ciento veinte días del artículo 32 será de cien días; el plazo de noventa días del artículo 33 será de setenta días; el plazo de sesenta días del artículo 34 será de cuarenta y cinco días; el plazo de cien días del artículo 43 será de ochenta días; el plazo de diez días del inciso primero del artículo 48 será de cinco días, y el plazo de diez días del inciso primero del artículo 49 será de cinco días.
-
-b) Los demás plazos señalados en las leyes indicadas en el número 1 del inciso quinto del artículo 144 que recaigan en fechas anteriores a la publicación de esta reforma constitucional, se entenderán referidos al tercer día siguiente de su publicación.
-
-Sin perjuicio de las normas precedentes, el Consejo Constitucional podrá estar integrado, además, por uno o más miembros de los pueblos originarios reconocidos en la ley N° 19.253, que establece normas sobre protección, fomento y desarrollo de los indígenas, y crea la Corporación Nacional de Desarrollo Indígena, vigente a la fecha de publicación de la presente reforma. Para estos efectos se aplicarán las siguientes reglas especiales:
-
-1. Podrán declarar candidaturas las personas indígenas que sean ciudadanos con derecho a sufragio, siéndoles además aplicables las inhabilidades, incompatibilidades y prohibiciones generales para ser miembro del Consejo Constitucional. Las candidaturas deberán acreditar su condición de pertenecientes a algún pueblo, mediante el correspondiente certificado de calidad de indígena emitido por la Corporación Nacional de Desarrollo Indígena.
-
-2. Las declaraciones de candidaturas a pueblos indígenas serán individuales, y en el caso de los pueblos Mapuche, Aimara y Diaguita, deberán contar con el patrocinio de a lo menos tres comunidades o cinco asociaciones indígenas registradas ante la Corporación Nacional de Desarrollo Indígena o un cacicazgo tradicional reconocido en la ley Nº 19.253, correspondientes al mismo pueblo del candidato o candidata. También podrán patrocinar candidaturas las organizaciones representativas de los pueblos indígenas que no estén inscritas, requiriéndose tres de ellas. Dichas candidaturas también podrán ser patrocinadas por a lo menos ciento veinte firmas de personas que tengan acreditada la calidad indígena del mismo pueblo del patrocinado. En los demás pueblos bastará el patrocinio de una sola comunidad, asociación registrada u organización indígena no registrada; o bien, de a lo menos sesenta firmas de personas que tengan acreditada la calidad indígena del mismo pueblo del patrocinado. Sin perjuicio de las reglas generales de patrocinio de candidaturas establecidas en la ley, el patrocinio de candidaturas mediante firmas a que alude esta disposición podrá realizarse a través de una plataforma electrónica dispuesta por el Servicio Electoral, a la que se accederá previa autentificación de identidad. En este caso, se entenderá suscrito el patrocinio de la respectiva candidatura a través de medios electrónicos. Por medio de esta plataforma, el Servicio Electoral generará la nómina de patrocinantes, en tiempo y forma, para efectos de la declaración de la respectiva candidatura. Esta plataforma deberá cumplir con los estándares de seguridad necesarios para asegurar su adecuado funcionamiento.
-
-3. Las declaraciones de candidaturas correspondientes a pueblos indígenas serán uninominales y formarán una única circunscripción nacional de pueblos indígenas con una cédula electoral única nacional y diferente a la de los consejeros constitucionales generales. El Servicio Electoral identificará a los electores indígenas en los padrones electorales a que se refieren los artículos 32, 33, 34 y 37 bis de la ley Nº 18.556. En la publicación de dichos padrones, cuando corresponda, se deberá indicar la condición indígena de un elector. La condición indígena será una causal reclamable ante los Tribunales Electorales Regionales bajo el procedimiento de los artículos 48 y 49 de la ley N° 18.556. Los electores identificados bajo la condición indígena podrán optar por sufragar por las candidaturas de la circunscripción nacional de pueblos indígenas o por los candidatos generales de su respectiva circunscripción senatorial, solicitando una u otra cédula de votación en la mesa receptora de sufragios. En ningún caso podrán sufragar en ambas. La cédula electoral de las candidaturas de pueblos indígenas contendrá las candidaturas ordenadas alfabéticamente, señalando al lado del nombre del candidato el pueblo originario correspondiente.
-
-4. Para los efectos del numeral anterior, se considerará con condición indígena a todos los electores con derecho a sufragio, que tuvieron tal condición en el padrón electoral utilizado para la elección de Convencionales Constituyentes en mayo de 2021. Adicionalmente, se actualizará dicha condición respecto de otros electores según se informe por los organismos respectivos al Servicio Electoral, en conformidad al procedimiento establecido en el inciso décimo de la disposición cuadragésimo tercera transitoria de esta Constitución.
-
-5. El número de escaños a elegir se obtendrá de la aplicación de la siguiente regla:
-
-i. Se sumará el total de votos válidamente emitidos por las candidaturas de la circunscripción nacional indígena.
-
-ii. Si dicha suma representare un porcentaje igual o superior al 1,5% respecto de la suma total de votos válidamente emitidos en la totalidad de las 16 circunscripciones no indígenas del país al Consejo Constitucional, la circunscripción nacional indígena elegirá un escaño, el que se asignará a la candidatura más votada.
-
-iii. Si dicha suma representare un porcentaje igual o superior al 3,5% de los votos válidamente emitidos en la totalidad de las 16 circunscripciones no indígenas del país al Consejo Constitucional, la circunscripción nacional indígena elegirá dos escaños en total. El segundo escaño se asignará a la candidatura más votada del sexo distinto al asignado en la regla anterior.
-
-iv. Por cada vez que el porcentaje de 3,5% señalado precedentemente aumente en 2 puntos porcentuales, se elegirá y asignará un escaño adicional a la circunscripción nacional indígena, alternando respectivamente el sexo de la siguiente candidatura electa más votada.
-
-El proceso de calificación de la elección de integrantes del Consejo Constitucional será realizado por el Tribunal Calificador de Elecciones. La calificación deberá quedar concluida dentro de los treinta días siguientes a la fecha de ésta. La sentencia de proclamación será comunicada dentro de los tres días siguientes de su dictación al Presidente de la República y al Congreso Nacional. Dentro de los tres días siguientes a la recepción de la comunicación a que hace referencia el inciso anterior, el Presidente de la República convocará, mediante decreto supremo exento, a la primera sesión de instalación del Consejo Constitucional, la que se desarrollará en la sede del Congreso Nacional en la ciudad de Santiago, el 7 de junio de 2023.
+ii. Se ordenarán las listas o pactos que hayan obtenido escaños segú
 
 ### De la Comisión Experta
 
@@ -1105,7 +1059,7 @@ CUARTA.- Se entenderá que las leyes actualmente en CPR QUINTA vigor sobre mater
 
 #### Disposición transitoria QUINTA
 
-QUINTA.- No obstante lo dispuesto en el número 6º del CPR SEXTA artículo 32, mantendrán su vigencia los preceptos legales DISPOSICION que a la fecha de promulgación de esta Constitución hubieren reglado materias no comprendidas en el artículo 63, mientras ellas no sean expresamente derogadas por ley.
+QUINTA.- No obstante lo dispuesto en el número 6º del CPR SEXTA artículo 32, mantendrán su vigencia los preceptos legales DISPOSICION que a la fecha de promulgación de esta Constitución hubieren reglado materias no comprendidas en el artí
 
 #### Disposición transitoria SEXTA
 

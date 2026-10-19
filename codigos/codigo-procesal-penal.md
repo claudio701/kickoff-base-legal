@@ -5,17 +5,17 @@ titulo_oficial: "ESTABLECE CODIGO PROCESAL PENAL"
 tipo_numero: "Ley 19696"
 fuente: https://www.bcn.cl/leychile/navegar?idNorma=176595
 fuente_xml: https://www.leychile.cl/Consulta/obtxml?opt=7&idNorma=176595
-fecha_version: 2026-10-10
+fecha_version: 2026-10-16
 fecha_publicacion: 2000-10-12
-fecha_descarga: 2026-10-16
+fecha_descarga: 2026-10-19
 estado: "no derogado"
-articulos: 563
+articulos: 564
 nota: "Texto consolidado descargado del servicio oficial de LeyChile (BCN). Verificar vigencia antes de citar."
 ---
 
 # Código Procesal Penal
 
-> **Verificar vigencia antes de citar.** Texto consolidado de LeyChile (BCN), versión 2026-10-10, idNorma 176595. Fuente oficial: https://www.bcn.cl/leychile/navegar?idNorma=176595
+> **Verificar vigencia antes de citar.** Texto consolidado de LeyChile (BCN), versión 2026-10-16, idNorma 176595. Fuente oficial: https://www.bcn.cl/leychile/navegar?idNorma=176595
 
 ESTABLECE CODIGO PROCESAL PENAL
 
@@ -2144,6 +2144,10 @@ Instrucci�nes necesarias para el trabajo de los peritos. Durante la etapa de i
 #### Artículo 321
 
 Auxiliares del ministerio público como peritos. El ministerio público podrá presentar como peritos a los miembros de los organismos técnicos que le prestaren auxilio en su función investigadora, ya sea que pertenecieren a la policía, al propio ministerio público o a otros organismos estatales especializados en tales funciones.
+
+#### Artículo 321 BIS
+
+Peritajes en procedimientos sobre uso de la fuerza policial o militar. En investigaciones de hechos que revistan carácter de delito relativos al ejercicio de la fuerza por funcionarios de las Fuerzas de Orden y Seguridad Pública o de las Fuerzas Armadas, el Ministerio Público podrá presentar como peritos a miembros de los organismos técnicos pertenecientes a dichas instituciones.
 
 #### Artículo 322
 

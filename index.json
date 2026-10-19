@@ -1,5 +1,5 @@
 {
- "version": "2026-10-16",
+ "version": "2026-10-19",
  "codigos": [
   {
    "slug": "codigo-civil",
@@ -81,14 +81,14 @@
    "nombre": "Código Procesal Penal",
    "idNorma": 176595,
    "archivo": "codigos/codigo-procesal-penal.md",
-   "articulos": 563,
+   "articulos": 564,
    "temas": [
     "procesal",
     "penal",
     "litigios"
    ],
-   "bytes": 465096,
-   "fechaVersion": "2026-10-10"
+   "bytes": 465509,
+   "fechaVersion": "2026-10-16"
   },
   {
    "slug": "codigo-tributario",
@@ -112,7 +112,7 @@
    "temas": [
     "constitucional"
    ],
-   "bytes": 375650,
+   "bytes": 363648,
    "fechaVersion": "2026-04-16"
   },
   {
