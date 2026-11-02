@@ -1,5 +1,5 @@
 {
- "version": "2026-10-19",
+ "version": "2026-11-02",
  "codigos": [
   {
    "slug": "codigo-civil",
@@ -95,13 +95,13 @@
    "nombre": "Código Tributario (Decreto Ley 830)",
    "idNorma": 6374,
    "archivo": "codigos/codigo-tributario.md",
-   "articulos": 256,
+   "articulos": 257,
    "temas": [
     "tributario",
     "sii"
    ],
-   "bytes": 444695,
-   "fechaVersion": "2025-07-11"
+   "bytes": 447084,
+   "fechaVersion": "2026-10-17"
   },
   {
    "slug": "constitucion-politica",
@@ -133,13 +133,13 @@
    "nombre": "Ley sobre Impuesto a la Renta (Decreto Ley 824)",
    "idNorma": 6368,
    "archivo": "codigos/dl-824-renta.md",
-   "articulos": 178,
+   "articulos": 179,
    "temas": [
     "tributario",
     "renta"
    ],
-   "bytes": 592324,
-   "fechaVersion": "2026-03-27"
+   "bytes": 606318,
+   "fechaVersion": "2026-10-17"
   },
   {
    "slug": "dl-825-iva",
